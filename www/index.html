@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>JIMMY TECH DASHBOARD</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>try{var __t=localStorage.getItem("jimmytech_theme");if(!__t)__t=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";document.documentElement.dataset.theme=__t}catch(e){}</script>
+<style>
+:root{--bg:#f2f6fc;--card:#ffffff;--tx:#1d2433;--mu:#667085;--bd:#e1e6f0;--pri:#4f46e5;--acc:#f59e0b;--on:#fff;--ok:#15803d;--warn:#c2410c;--bad:#dc2626;--c1:#4f46e5;--c2:#0d9488;--c3:#f97316;--c4:#db2777;--c5:#7c3aed;--c6:#0284c7;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1320;--card:#182033;--tx:#eef1f8;--mu:#9aa4b8;--bd:#2a3550;--pri:#8b93ff;--acc:#fbbf24;--on:#0e1320;--ok:#4ade80;--warn:#fb923c;--bad:#f87171;--c1:#6366f1;--c2:#14b8a6;--c3:#fb923c;--c4:#f472b6;--c5:#a78bfa;--c6:#38bdf8;color-scheme:dark}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background-image:radial-gradient(700px 260px at 0 0,color-mix(in srgb,var(--c6) 14%,transparent),transparent),radial-gradient(700px 260px at 100% 0,color-mix(in srgb,var(--c4) 12%,transparent),transparent);background-repeat:no-repeat;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+.top{background:linear-gradient(115deg,#4338ca 0%,#7c3aed 45%,#db2777 100%);color:#fff;padding:18px 0;border-bottom:5px solid;border-image:linear-gradient(90deg,#f59e0b,#f97316,#ec4899,#14b8a6,#0ea5e9) 1}
+.hd{max-width:1100px;margin:0 auto;display:flex;gap:14px;align-items:center;padding:0 14px}
+.mono{width:48px;height:48px;border:2px solid #fff;background:#ffffff26;border-radius:14px;color:#fff;display:grid;place-items:center;font:700 20px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:1px;flex:none}
+.top h1{margin:0;font:700 clamp(18px,4.8vw,27px) system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:.05em}
+.top p{margin:2px 0 0;font-size:13px;opacity:.75}
+.wrap{max-width:1100px;margin:0 auto;padding:14px 14px 28px}
+nav{display:flex;gap:2px;border-bottom:2px solid var(--bd);margin-bottom:16px;overflow-x:auto}
+nav button{display:flex;gap:7px;align-items:center;white-space:nowrap;padding:12px 16px;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;background:none;color:var(--mu);font-family:inherit;font-size:15px;font-weight:600;cursor:pointer}
+nav .on{color:var(--pri);border-bottom-color:var(--acc)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:14px}
+.k{background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--acc);border-radius:10px;padding:12px 14px;cursor:pointer}
+.k b{display:block;font:700 26px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--pri)}.k span{color:var(--mu);font-size:13px}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:14px}
+.panel h2{margin:0 0 12px;font:700 17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}.cols .panel{margin-bottom:0}.cols{margin-bottom:14px}
+button.p{background:var(--pri);color:var(--on);border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer}
+input,select,textarea{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--pri);outline-offset:0}
+.big{font-size:17px;padding:12px 14px}
+label{font-size:13px;color:var(--mu);display:block;margin-top:10px}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}th{color:var(--mu);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.pill{padding:1px 8px;border-radius:4px;font-size:12px;font-weight:600;border:1px solid currentColor}.ok{color:var(--ok)}.low{color:var(--warn)}.out{color:var(--bad)}
+.tag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:4px;background:var(--bd);font-size:12px;font-weight:600}
+.bar{height:8px;border-radius:2px;background:var(--bd);overflow:hidden;min-width:70px}.bar i{display:block;height:100%}
+.msg{padding:9px 11px;border-radius:10px;margin-top:10px;font-size:14px}.msg.e{background:#a1352b22;color:var(--bad)}.msg.s{background:#2e6b3f22;color:var(--ok)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mu{color:var(--mu)}
+.ib{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;padding:7px 10px;cursor:pointer;display:inline-grid;place-items:center;font:inherit;font-size:13px;font-weight:600}
+.tb{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tb input{flex:1;min-width:160px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{font:inherit;font-size:13px;padding:5px 12px;border-radius:4px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}.chip.on{background:var(--pri);color:var(--on);border-color:var(--pri)}
+summary{cursor:pointer;margin-bottom:8px}details.panel{padding:12px 16px}
+.sc{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}.sc:last-child{border:0}
+.sq{text-align:center;min-width:92px}.sq b{display:block;font:700 26px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.1}
+.wk{display:flex;gap:8px;height:190px}.col{flex:1;display:flex;flex-direction:column;align-items:center;font-size:12px;gap:4px;min-width:0}.bw{flex:1;min-height:0;width:100%;display:flex;align-items:flex-end;border-bottom:2px solid var(--bd)}.bw i{display:block;width:100%;background:var(--pri);min-height:2px}.bw i.t{background:var(--acc)}
+.hb{display:grid;grid-template-columns:minmax(90px,38%) 1fr 44px;gap:10px;align-items:center;margin-bottom:9px;font-size:14px}.hb .tr{height:16px;background:var(--bd)}.hb .tr i{display:block;height:100%;background:var(--pri)}.hb b{text-align:right}
+.sell{text-align:right;min-width:104px}.sell small{display:block;font-size:11px;color:var(--mu);font-weight:600}.sell b{display:block;font:700 19px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ok);white-space:nowrap}.sell b.none{font:600 13px system-ui,sans-serif;color:var(--warn)}.sell s{font-size:12px;color:var(--mu)}
+.sc{flex-wrap:wrap}.pf{font-size:13px;margin-top:8px}
+.dl{display:inline-flex;gap:6px;align-items:center}
+@media(max-width:560px){.sc>div:first-child{flex:1 1 100%!important}.sell{text-align:left;flex:1}.sc{gap:6px}.sc .sq{min-width:64px}.sc .ib{padding:7px 8px}.sell{min-width:88px}}
+dialog{border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);width:min(420px,92vw);padding:18px}dialog::backdrop{background:#0008}
+
+/* ---- colour layer ---- */
+nav{gap:4px}
+nav button{--t:var(--c1);border-radius:12px 12px 0 0}
+nav button svg{color:var(--t)}
+nav button:nth-child(2){--t:var(--c2)}nav button:nth-child(3){--t:var(--c3)}nav button:nth-child(4){--t:var(--c4)}nav button:nth-child(5){--t:var(--c5)}
+nav .on{color:var(--t);border-bottom-color:var(--t);background:color-mix(in srgb,var(--t) 12%,transparent)}
+.k{--kc:var(--c1);border-left-color:var(--kc);border-radius:14px;background:linear-gradient(135deg,color-mix(in srgb,var(--kc) 13%,var(--card)),var(--card) 75%)}
+.k b{color:var(--kc)}
+.kpis .k:nth-child(2){--kc:var(--c2)}.kpis .k:nth-child(3){--kc:var(--c3)}.kpis .k:nth-child(4){--kc:var(--c4)}.kpis .k:nth-child(5){--kc:var(--c5)}
+.panel{border-radius:14px;box-shadow:0 2px 10px color-mix(in srgb,var(--c1) 7%,transparent)}
+.panel h2::before{content:"";display:inline-block;width:8px;height:18px;border-radius:4px;margin-right:8px;vertical-align:-3px;background:linear-gradient(var(--c4),var(--c3))}
+.cols .panel:nth-child(2) h2::before{background:linear-gradient(var(--c2),var(--c6))}
+button.p{background:linear-gradient(135deg,var(--c1),var(--c5));color:#fff;box-shadow:0 2px 8px color-mix(in srgb,var(--c1) 30%,transparent)}
+.chip{border-color:var(--cc,var(--bd));border-radius:999px;padding:5px 14px}
+.chip:not(.on){color:var(--cc,var(--tx))}
+.chip.on{background:var(--cc,var(--pri));border-color:var(--cc,var(--pri));color:#fff}
+.ib{border-radius:10px}
+.bw i{background:linear-gradient(var(--c6),var(--c1));border-radius:6px 6px 0 0}.bw i.t{background:linear-gradient(var(--c3),var(--c4))}
+.hb .tr{border-radius:8px;overflow:hidden}
+.pill{border-radius:999px;padding:1px 10px}.pill.col{color:var(--c6)}
+.tag{background:color-mix(in srgb,var(--c5) 16%,transparent);color:var(--c5);border-radius:999px;padding:1px 9px}
+.sell b{color:var(--c2)}
+.sq b{font-weight:800}
+dialog{border-radius:16px;border-top:5px solid var(--c4)}
+summary b{font-size:16px}
+.compact-search{padding:10px 12px;margin-bottom:10px}.compact-search .tb input{min-width:0}.search-icon{min-width:40px;min-height:40px;padding:8px}.search-icon svg{width:18px;height:18px}.quick-sale{padding:12px;margin-bottom:12px}.quick-sale h2{margin:0}.quick-sale .tb input{min-width:0}.quick-result{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd)}.quick-result:last-child{border-bottom:0}.quick-result .qinfo{min-width:0;flex:1}.quick-result .qinfo b{display:block;overflow-wrap:anywhere}.quick-result small{display:block;color:var(--mu)}.quick-result .sell-now{padding:6px 10px;white-space:nowrap}.top{padding:10px 0;border-bottom-width:3px}.mono{width:38px;height:38px;border-radius:11px}.wrap{padding-top:10px}.panel{padding:12px;margin-bottom:10px}.kpis{gap:8px;margin-bottom:10px}.k{padding:9px 11px}.k b{font-size:22px}
+/* ---- repairs ---- */
+.rc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:0 2px 8px color-mix(in srgb,var(--c1) 6%,transparent)}
+.rh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.ri{margin:8px 0 10px;font-size:14px}
+.rf{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.rf small{display:block;font-size:11px;color:var(--mu);font-weight:600}
+.rm{font:800 20px system-ui,sans-serif;color:var(--c4)}
+.ra{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center}.ra .p{padding:8px 14px}.ra .sp{flex:1}
+.ib.dng{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 50%,var(--bd))}
+button.dngb{background:var(--bad);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer}
+.stk{display:grid;gap:8px;margin-top:14px}.stk button{width:100%;text-align:left;padding:12px 14px}
+.stk small{display:block;font-weight:400;opacity:.85}
+textarea{resize:vertical;min-height:64px}
+a{color:var(--c6)}
+/* ---- v4 additions ---- */
+.wire{height:8px;background:repeating-linear-gradient(90deg,#dc2626 0 36px,#111827 36px 72px,#2563eb 72px 108px,#f59e0b 108px 144px,#16a34a 144px 180px)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 1px 1px,color-mix(in srgb,var(--c1) 16%,transparent) 1px,transparent 1.6px) 0 0/22px 22px,radial-gradient(600px 300px at 0 0,color-mix(in srgb,var(--c6) 14%,transparent),transparent),radial-gradient(600px 300px at 100% 100%,color-mix(in srgb,var(--c4) 12%,transparent),transparent)}
+.hact{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+#sv{font-size:12px;opacity:.9;display:flex;align-items:center;gap:6px}#sv::before{content:"";width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 3px #4ade8040}
+.svb{background:#fff;color:#4338ca;border:0;border-radius:10px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 6px #0003}
+.svb:hover{transform:translateY(-1px)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1d2433;color:#fff;padding:10px 18px;border-radius:12px;opacity:0;transition:.25s;pointer-events:none;z-index:99;max-width:90vw;text-align:center}#toast.show{opacity:1}
+.k,.tile,.dcard,.sc{transition:transform .15s,box-shadow .15s}.k:hover,.dcard:hover,.tile:hover:not(:disabled){transform:translateY(-2px)}
+nav button:nth-child(6){--t:var(--c6)}nav button:nth-child(7){--t:var(--c3)}.kpis .k:nth-child(6){--kc:var(--c6)}
+.nb{background:var(--bad);color:#fff;border-radius:999px;padding:0 7px;font-size:12px}
+.sellgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:14px;align-items:start}@media(max-width:820px){.sellgrid{grid-template-columns:1fr}}
+.cartp{position:sticky;top:8px;margin-bottom:0}@media(max-width:820px){.cartp{position:static}}
+.grp{margin-bottom:12px}.grp h3{margin:0 0 6px;font-size:16px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+.tile{font:inherit;text-align:left;cursor:pointer;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-left:7px solid var(--cc,var(--c1));border-radius:12px;padding:10px 11px;display:flex;flex-direction:column;gap:2px;box-shadow:0 2px 8px color-mix(in srgb,var(--cc,var(--c1)) 12%,transparent)}
+.tile b{font-size:15px}.tile span{color:var(--ok);font-weight:800;font-size:15px}.tile small{color:var(--mu)}.tile:disabled{opacity:.45;cursor:not-allowed}.tile:hover:not(:disabled){background:color-mix(in srgb,var(--cc,var(--c1)) 10%,var(--card))}
+.cl{display:grid;grid-template-columns:1fr 88px auto;gap:6px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--bd)}
+.qt{display:flex;align-items:center;gap:8px;margin-top:4px}.qt .ib{padding:2px 11px}
+.ctot{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0}.ctot b{font:800 26px system-ui,sans-serif;color:var(--c2)}
+.dcard{background:var(--card);border:1px solid var(--bd);border-left:7px solid var(--c4);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.dh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.dn2{font-size:17px}.owe{text-align:right}.owe small{display:block;color:var(--mu);font-size:11px;font-weight:600}.owe b{font:800 22px system-ui,sans-serif;color:var(--bad)}
+.da{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center}.da input{flex:1;min-width:130px}
+.dl2{padding:7px 0;border-bottom:1px dashed var(--bd);font-size:14px}
+
+/* JIMMY TECH — desktop-first professional electronics shop refresh */
+:root{--bg:#eef2f6;--card:#ffffff;--tx:#172b3a;--mu:#5c6b78;--bd:#d4dee6;--pri:#123b5d;--acc:#f0a51b;--on:#ffffff;--ok:#137547;--warn:#a85b12;--bad:#b42332;--c1:#123b5d;--c2:#137c75;--c3:#d58b12;--c4:#a52b3c;--c5:#365f83;--c6:#537c40;color-scheme:light}
+body{background:#eef2f6;color:var(--tx);font-family:Inter,"Segoe UI",Arial,sans-serif}
+.top{background:#102f49;border:0;padding:20px 0;color:#fff}
+.hd{max-width:1600px;padding:0 28px}.mono{border-radius:10px;background:#f0a51b;color:#102f49;border:0;font-weight:900}
+.top h1{letter-spacing:.035em}.top p{opacity:.82}
+.wire{height:5px;background:#f0a51b}
+.wrap{max-width:1600px;padding:24px 28px 36px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:24px;align-items:start}
+nav{display:flex;flex-direction:column;gap:6px;border:1px solid #d4dee6;border-radius:14px;padding:10px;background:#fff;margin:0;position:sticky;top:16px;box-shadow:0 8px 24px #102f4910}
+nav button{width:100%;text-align:left;border:0;border-radius:9px!important;margin:0;padding:13px 14px;color:#405464;font-size:14px;border-bottom:0!important;gap:11px}
+nav button svg{width:18px;height:18px;flex:none}
+nav .on{background:#123b5d!important;color:#fff!important;border:0!important}
+nav button:hover:not(.on){background:#edf3f7;color:#123b5d}
+#v{min-width:0}.panel{border:1px solid #d4dee6;border-radius:12px;box-shadow:0 4px 14px #102f4909;padding:20px}
+.panel h2{color:#173b55;font-size:17px}.panel h2::before{background:#f0a51b!important;border-radius:2px}
+.k{border:1px solid #d4dee6;border-left:4px solid var(--kc);border-radius:10px;background:#fff;box-shadow:0 3px 10px #102f4908;padding:17px}
+.k b{color:var(--kc);font-size:27px}.k span{font-weight:600;color:#5c6b78}
+button.p{background:#123b5d;color:#fff;border-radius:8px;box-shadow:none}button.p:hover{background:#1c527c}
+.svb{background:#f0a51b;color:#102f49;border-radius:8px;box-shadow:none}.svb:hover{background:#ffc44d}
+input,select,textarea{border-radius:8px;border-color:#cbd7e0}input:focus,select:focus,textarea:focus{outline:2px solid #7ea7c4}
+.chip{border-radius:7px}.chip.on{background:#123b5d;border-color:#123b5d;color:#fff}
+.tile{border:1px solid #d4dee6;border-top:3px solid var(--cc);border-left:1px solid #d4dee6;border-radius:9px;box-shadow:none}.tile:hover:not(:disabled){background:#f4f8fb}
+.sc,.rc,.dcard{border-radius:10px}.dcard{border-left-color:#a52b3c}
+.sell b{color:#137c75}.ctot b{color:#137c75}
+#v>.panel:first-child{border-top:4px solid #f0a51b}
+@media(min-width:1500px){.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}.cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.wrap{display:block;padding:14px}.hd{padding:0 14px}nav{position:static;flex-direction:row;overflow-x:auto;margin-bottom:16px;padding:6px}nav button{width:auto;flex:none;padding:10px 12px}.top{padding:14px 0}.hact{gap:5px}.svb{padding:7px 9px}}
+@media(min-width:901px){.sellgrid{grid-template-columns:minmax(0,1.55fr) minmax(320px,.9fr)}.cartp{top:16px}.kpis{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}}
+
+
+/* Navigation and dashboard usability improvements */
+.topnav-wrap{max-width:1600px;margin:0 auto;padding:14px 28px 0}
+#topnav{display:flex;flex-direction:row;position:static;overflow:visible;margin:0;gap:8px;align-items:center;padding:8px;background:#fff;border:1px solid #d4dee6;border-radius:12px;box-shadow:0 3px 12px #102f4908}
+#topnav button{display:flex;align-items:center;justify-content:center;gap:9px;padding:11px 18px;border:1px solid #d4dee6;border-radius:8px;background:#f7f9fb;color:#405464;font:600 14px system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;white-space:nowrap}
+#topnav button svg{width:18px;height:18px;flex:none}
+#topnav button.on{background:#123b5d;color:#fff;border-color:#123b5d}
+#topnav button[data-t="sell"]{background:#f0a51b;color:#102f49;border-color:#f0a51b;font-weight:800;padding-left:22px;padding-right:22px}
+#topnav button[data-t="sell"].on{background:#d9910b;color:#102f49}
+.header-search{width:42px;height:42px;display:grid;place-items:center;border:1px solid #527086;border-radius:9px;background:#24465e;color:#fff;cursor:pointer;flex:none}
+.header-search svg{width:21px;height:21px}
+.hact{display:flex;align-items:center;gap:10px;margin-left:auto}
+.compact-search.search-collapsed{display:none}
+.category-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;margin-top:12px}
+.category-chips .chip{min-height:38px;text-align:left;display:flex;align-items:center;justify-content:flex-start;gap:7px;white-space:normal;line-height:1.25;padding:8px 11px}
+.category-chips .chip .cat-count{margin-left:auto;opacity:.75;font-size:12px;white-space:nowrap}
+.k.sales-kpi,.k.profit-kpi{min-height:112px;padding:20px 22px;border-top:3px solid var(--kc);box-shadow:0 5px 14px #102f490d}
+.k.sales-kpi span,.k.profit-kpi span{font-size:14px}
+.k.sales-kpi b,.k.profit-kpi b{font-size:clamp(28px,2.5vw,36px);line-height:1.2;margin-top:5px}
+@media(min-width:901px){.k.sales-kpi,.k.profit-kpi{grid-column:span 2}}
+@media(max-width:900px){.topnav-wrap{padding:10px 14px 0}#topnav{flex-wrap:wrap;justify-content:stretch;padding:6px}#topnav button{flex:1 1 28%;padding:10px 8px} .wrap{display:grid;grid-template-columns:1fr;gap:12px}#nav{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:0 0 4px;padding:8px}#nav button{width:100%;min-width:0;justify-content:flex-start;padding:10px;font-size:13px}#nav button svg{width:17px;height:17px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.k.sales-kpi,.k.profit-kpi{grid-column:span 1}.k.sales-kpi,.k.profit-kpi{padding:16px;min-height:100px}}
+@media(max-width:420px){#topnav button{font-size:12px;gap:5px}.category-chips{grid-template-columns:repeat(2,minmax(0,1fr))}.k b{font-size:20px}.k.sales-kpi b,.k.profit-kpi b{font-size:25px}}
+
+#loginGate{position:fixed;inset:0;z-index:1000;background:#102f49;display:grid;place-items:center;padding:20px}#loginGate .loginbox{width:min(390px,100%);background:#fff;border-radius:16px;padding:28px;color:#172b3a;border-top:5px solid #f0a51b}#loginError{color:#b42332;min-height:20px;margin-top:8px}.stock-scroll{max-height:560px;overflow:auto}.stock-graph-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(90px,2fr) 70px;gap:10px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--bd)}.stock-graph-row .sgbar{height:14px;background:#e2e8ee;border-radius:5px;overflow:hidden}.stock-graph-row .sgbar i{display:block;height:100%;background:#137c75}.stock-graph-row.is-out{animation:stockGlow 1s ease-in-out infinite alternate}.stock-graph-row.is-out .sgbar i{background:#ef1020}@keyframes stockGlow{to{box-shadow:0 0 18px 5px #ff1020cc;background:#ffe1e1}}
+.dash-layout{display:grid;grid-template-columns:minmax(180px,245px) minmax(0,1fr);gap:14px;align-items:start}.dash-side{position:sticky;top:8px}.dash-main{min-width:0}.dash-side .kpis{grid-template-columns:1fr;gap:8px}.dash-side .k{min-width:0}.dash-main .cols{grid-template-columns:minmax(0,1fr)}.dash-main .stock-graph-row{grid-template-columns:minmax(140px,1.1fr) minmax(120px,2fr) 82px}.stock-graph-row .sgbar{height:17px}.theme-toggle{margin-left:auto;border:1px solid #ffffff66;border-radius:10px;padding:8px 12px;background:#ffffff18;color:#fff;font:inherit;cursor:pointer;white-space:nowrap}@media(max-width:700px){.dash-layout{grid-template-columns:1fr}.dash-side{position:static}.dash-side .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-main .stock-graph-row{grid-template-columns:minmax(90px,1.1fr) minmax(65px,1fr) 58px}}.quick-result .qinfo b,.tile b{text-transform:uppercase}.item-pic{width:42px;height:42px;flex:0 0 42px;display:inline-grid;place-items:center;overflow:hidden;border-radius:11px;background:linear-gradient(145deg,#edf4f8,#dce7ef);border:1px solid #cbd8e2;font-size:23px;box-shadow:inset 0 1px #fff}.item-pic img{display:block;width:100%;height:100%;object-fit:contain;background:#fff;border-radius:10px}.quick-result .item-pic{width:48px;height:48px;flex-basis:48px}.sc .item-pic{width:48px;height:48px;flex-basis:48px}.quick-result{align-items:center}.quick-result .qinfo{display:flex;align-items:center;gap:10px}.quick-result .qtext{min-width:0}.sc .item-pic{margin-right:9px;vertical-align:middle}.export-head{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}.report-title{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--mu);font-weight:800;margin:0 0 10px}@media(max-width:520px){.stock-graph-row{grid-template-columns:minmax(90px,1fr) minmax(55px,1fr) 56px;font-size:12px}}:root[data-theme="dark"]{--bg:#0e1320;--card:#182033;--tx:#eef1f8;--mu:#9aa4b8;--bd:#2a3550;--pri:#8b93ff;--acc:#fbbf24;--on:#0e1320;--ok:#4ade80;--warn:#fb923c;--bad:#f87171;--c1:#6366f1;--c2:#14b8a6;--c3:#fb923c;--c4:#f472b6;--c5:#a78bfa;--c6:#38bdf8;color-scheme:dark}:root[data-theme="light"]{color-scheme:light}
+/* ===== JIMMY TECH v5 — unified theme tokens, grouped navigation, proper dark mode ===== */
+:root,:root[data-theme="light"]{--bg:#eef2f6;--card:#ffffff;--soft:#f4f7fa;--inp:#ffffff;--bd:#d4dee6;--bd2:#c4d2dd;--tx:#172b3a;--mu:#5c6b78;--pri:#123b5d;--btn:#123b5d;--btnh:#1c527c;--link:#123b5d;--acc:#f0a51b;--on:#ffffff;--hd:#102f49;--ok:#137547;--warn:#a85b12;--bad:#b42332;--c1:#123b5d;--c2:#137c75;--c3:#d58b12;--c4:#a52b3c;--c5:#365f83;--c6:#537c40;--sh:0 4px 14px #102f4910;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0a1520;--card:#112131;--soft:#16293c;--inp:#0d1b29;--bd:#23394e;--bd2:#2d4860;--tx:#e7eff6;--mu:#93a6b7;--pri:#7bbbe8;--btn:#2a76ad;--btnh:#3687c1;--link:#7bbbe8;--acc:#f0a51b;--on:#ffffff;--hd:#0c2236;--ok:#4cc38a;--warn:#f0a04b;--bad:#f26d78;--c1:#5fa8dc;--c2:#3cb8ae;--c3:#f0b04a;--c4:#e56b7f;--c5:#8aa9d6;--c6:#8bbf6d;--sh:0 4px 16px #00000055;color-scheme:dark}
+html{background:var(--bg)}
+body{background:var(--bg)!important;color:var(--tx)}
+body::before{background:none!important}
+.mu{color:var(--mu)}a{color:var(--link)}
+::placeholder{color:var(--mu);opacity:.8}
+
+/* header */
+.top{background:var(--hd)}
+.hd{gap:12px;flex-wrap:wrap}
+.hact{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.hbtn,.theme-toggle{margin:0;border:1px solid #ffffff44;border-radius:9px;padding:8px 13px;background:#ffffff14;color:#fff;font:600 13px system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;white-space:nowrap}
+.hbtn:hover,.theme-toggle:hover,.header-search:hover{background:#ffffff2a}
+.header-search{border-color:#ffffff44;background:#ffffff14}
+.role-tag{background:var(--acc);color:#102f49;font:800 11px system-ui,sans-serif;letter-spacing:.08em;padding:5px 10px;border-radius:999px}
+.role-tag[hidden]{display:none}
+
+/* ONE grouped navigation bar */
+.topnav-wrap{max-width:1600px;margin:0 auto;padding:16px 28px 0}
+#topnav{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px;position:static;overflow:visible;margin:0;padding:8px;background:var(--card);border:1px solid var(--bd);border-radius:12px;box-shadow:var(--sh)}
+#topnav button{display:flex;align-items:center;justify-content:center;gap:8px;flex:none;width:auto;padding:10px 15px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--mu);font:600 14px system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;white-space:nowrap;margin:0}
+#topnav button svg{width:17px;height:17px;flex:none}
+#topnav button:hover:not(.on){background:var(--soft);color:var(--tx)}
+#topnav button.on{background:var(--btn);color:#fff;border-color:var(--btn)}
+#topnav button[data-t="sell"]{background:var(--acc);color:#102f49;border-color:var(--acc);font-weight:800}
+#topnav button[data-t="sell"].on{background:#d9910b;border-color:#d9910b;color:#102f49}
+#topnav .sep{width:1px;height:26px;background:var(--bd);margin:0 4px;flex:none}
+#topnav .grp-l{font:700 10px system-ui,sans-serif;letter-spacing:.1em;color:var(--mu);text-transform:uppercase;margin:0 2px 0 6px;opacity:.8}
+.wrap{display:block;max-width:1600px;padding:18px 28px 40px}
+#v{min-width:0}
+
+/* surfaces */
+.panel,.k,.rc,.dcard,.sc,dialog,.tile{background:var(--card);color:var(--tx);border-color:var(--bd)}
+.panel{box-shadow:var(--sh)}
+.panel h2{color:var(--tx)}
+.k{border-left-color:var(--kc);background:var(--card)}
+.k span{color:var(--mu)}
+.dash-side h2{color:var(--tx)}
+.tile{border-top-color:var(--cc,var(--c1));border-left-color:var(--bd)}
+.tile:hover:not(:disabled){background:var(--soft)}
+.tile small{color:var(--mu)}
+.dcard{border-left-color:var(--c4)}
+input,select,textarea{background:var(--inp);color:var(--tx);border-color:var(--bd2)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--c1)}
+button.p{background:var(--btn);color:#fff;box-shadow:none}button.p:hover{background:var(--btnh)}
+.svb{background:var(--acc);color:#102f49}
+.ib{background:var(--card);color:var(--tx);border-color:var(--bd2)}.ib:hover{background:var(--soft)}
+.chip{background:var(--card);color:var(--tx);border-color:var(--bd2)}.chip.on{background:var(--btn);border-color:var(--btn);color:#fff}
+.chip:not(.on){color:var(--tx)}
+th{color:var(--mu)}td,th{border-bottom-color:var(--bd)}
+.k b,.sq b{color:inherit}.k b{color:var(--kc)}
+.sell b,.ctot b{color:var(--c2)}
+.rm{color:var(--c4)}
+.tag{background:color-mix(in srgb,var(--c5) 20%,transparent);color:var(--c5)}
+.item-pic{background:var(--soft);border-color:var(--bd);box-shadow:none}
+.item-pic img{background:#fff}
+.stock-graph-row .sgbar{background:var(--bd)}
+.stock-graph-row .sgbar i{background:var(--c2)}
+.stock-graph-row.is-out .sgbar i{background:var(--bad)}
+@keyframes stockGlow{to{box-shadow:0 0 16px 4px color-mix(in srgb,var(--bad) 65%,transparent);background:color-mix(in srgb,var(--bad) 16%,transparent)}}
+.msg.e{background:color-mix(in srgb,var(--bad) 14%,transparent)}.msg.s{background:color-mix(in srgb,var(--ok) 14%,transparent)}
+dialog{border-top-color:var(--acc)}
+#toast{background:var(--hd);border:1px solid var(--bd2)}
+
+/* login gate */
+#loginGate{background:var(--hd)}
+#loginGate .loginbox{background:var(--card);color:var(--tx);border-top-color:var(--acc);box-shadow:0 20px 60px #0008}
+#loginGate .loginbox.admin{border-top-color:var(--bad);box-shadow:0 0 0 2px color-mix(in srgb,var(--bad) 55%,transparent),0 20px 60px #0008}
+#loginGate .mono{cursor:pointer;user-select:none;-webkit-user-select:none}
+#loginError{color:var(--bad)}
+#loginGate h2{margin:14px 0 4px}
+.admin-box{margin-top:12px}.admin-box .row{display:flex;gap:8px;align-items:flex-end}.admin-box .row>*{flex:1}.admin-box .row button{flex:none}
+.logrow{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--bd);font-size:14px}.logrow:last-child{border:0}
+
+@media(max-width:900px){
+ .topnav-wrap{padding:10px 14px 0}.wrap{padding:12px 14px 32px}.hd{padding:0 14px}
+ #topnav{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;padding:6px;-webkit-overflow-scrolling:touch}
+ #topnav button{scroll-snap-align:start;padding:10px 12px;font-size:13px}
+ #topnav .grp-l{display:none}
+ .hact{gap:6px}.hbtn,.theme-toggle{padding:7px 10px;font-size:12px}
+}
+
+/* v5 fixes */
+#topnav button.on{background:var(--btn)!important;color:#fff!important;border:1px solid var(--btn)!important}
+#topnav button[data-t="sell"].on{background:#d9910b!important;color:#102f49!important;border-color:#d9910b!important}
+#topnav .grp-l{display:none}
+.dash-layout{display:block}
+.dash-main{display:flex;flex-direction:column;gap:14px}
+.dash-main>*{margin:0!important}
+.dash-main>.kpis{order:0}.dash-main>.compact-search{order:1}.dash-main>.quick-sale{order:2}.dash-main>.cols{order:3}
+.dash-main .kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.dash-main .k,.dash-main .k.sales-kpi,.dash-main .k.profit-kpi{grid-column:span 1;min-height:96px;padding:16px 18px}
+.dash-main .k b,.dash-main .k.sales-kpi b,.dash-main .k.profit-kpi b{font-size:clamp(20px,1.9vw,27px);line-height:1.2;margin-top:4px;white-space:nowrap}
+.dash-main .k span{font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+.dash-main .cols{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;align-items:start}
+@media(max-width:1180px){.dash-main .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.dash-main .cols{grid-template-columns:1fr}}
+@media(max-width:560px){.dash-main .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.dash-main .k{padding:12px 13px;min-height:84px}}
+
+#topnav{gap:3px}
+#topnav button{padding:10px 11px;font-size:13.5px;gap:7px}
+#topnav .sep{margin:0 3px}
+#topnav button.on svg,#topnav button[data-t="sell"] svg{color:inherit}
+@media(max-width:900px){#topnav{flex-wrap:nowrap}#topnav button{padding:10px 12px;font-size:13px}}
+.sgbox{border:1px solid var(--bd2,var(--bd));background:var(--card);border-radius:10px;margin:6px 0 10px;max-height:240px;overflow:auto;box-shadow:var(--sh,0 4px 14px #0002)}
+.sgbox button{display:flex;width:100%;justify-content:space-between;align-items:center;gap:10px;text-align:left;border:0;border-bottom:1px solid var(--bd);background:transparent;color:var(--tx);padding:11px 12px;font:inherit;cursor:pointer;border-radius:0}
+.sgbox button:last-child{border-bottom:0}
+.sgbox button:hover,.sgbox button.act{background:var(--soft,var(--bg))}
+.sgbox button b{font-weight:700}.sgbox button small{color:var(--mu);white-space:nowrap}
+.sgbox mark{background:color-mix(in srgb,var(--acc) 40%,transparent);color:inherit;border-radius:3px;padding:0 1px}
+.delbtn{background:transparent;color:var(--bad);border:1px solid var(--bad);border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer;margin-right:auto}
+.delbtn.sure{background:var(--bad);color:#fff}
+</style></head><body><div id="loginGate"><form class="loginbox" id="loginForm" autocomplete="off"><div class="mono" id="loginLogo" title="JT">JT</div><h2 id="loginTitle">JIMMYTECH LOGIN</h2><p id="loginHint" class="mu" style="margin:0">Enter the shop access password to continue.</p><label for="loginPass" id="loginLabel">Password</label><input id="loginPass" type="password" autocomplete="current-password" required><div id="loginError" aria-live="polite"></div><button class="p big" style="width:100%;margin-top:8px" type="submit" id="loginBtn">Unlock shop</button></form></div>
+
+<div class="top"><div class="hd"><div class="mono" id="brandMark">JT</div><div><h1>JIMMY TECH DASHBOARD</h1><p id="dt"></p></div><div class="hact"><button class="header-search" type="button" onclick="toggleStockSearch()" aria-label="Search stock" title="Search stock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button><span class="role-tag" id="roleTag" hidden>SUPER ADMIN</span><span id="sv" aria-live="polite"></span><button class="theme-toggle" id="themeToggle" type="button">☾ Dark mode</button><button class="hbtn" id="logoutBtn" type="button">Log out</button></div></div></div>
+<div class="wire"></div>
+<div class="topnav-wrap"><nav id="topnav" aria-label="Main sections"></nav></div><div class="wrap"><div id="v"></div></div><dialog id="dg"></dialog><div id="toast"></div>
+<script>
+var ROLE="staff";
+const IC={sales:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+stock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>',
+low:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v4M12 18h.01"/></svg>',
+intro:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
+home:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v10H3z"/></svg>',
+cart:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l3 13h11l2-9H6"/></svg>',
+box:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>'};
+const CAT={"Phone accessories":["USB charging cables (Type-C, Micro USB, Lightning)","Phone adapters and fast chargers","Earphones and headphones","Bluetooth speakers","Power banks","Phone covers and screen protectors","Memory cards","USB flash drives","Phone holders and stands","OTG adapters"],
+"Electrical installation":["Electrical sockets and wall switches","Extension cables and extension sockets","Plugs and adaptors","Circuit breakers (MCBs)","Distribution boards","Electrical tape","Junction boxes","PVC electrical conduits and trunking","Cable clips and cable ties","Lamp holders and ceiling roses","LED bulbs and LED tubes","Security lights and floodlights","Doorbells","Fuses and fuse holders","Electrical wires"],
+"TV and radio":["TV remote controls","TV wall brackets","HDMI cables","RCA/AV cables","Antenna cables","TV antennas","Decoder cables and accessories","Universal remotes","Radio speakers","Audio cables","Microphones","Speaker wires"],
+"Repair spare parts":["Phone charging ports","Phone batteries","Phone screens","TV power supply boards","TV LED backlights","Capacitors and resistors","Diodes and transistors","Fuses for electronic devices","Soldering wire","Printed circuit boards (PCBs)","Connectors and adapters","Replacement speakers"],
+"Batteries and power":["AA and AAA batteries","Rechargeable batteries","9V batteries","Battery chargers","Rechargeable emergency lights","Solar lights","Solar charging accessories","Voltage stabilizers","Surge protectors","Small inverters"],
+"Tools and safety":["Test pens","Digital multimeters","Insulated screwdrivers","Wire strippers","Side-cutting pliers","Combination pliers","Soldering irons","Soldering stands","Electrical gloves","Cable lugs and terminals","Crimping tools","Measuring tape"]};
+const PRI=new Set(["USB charging cables (Type-C, Micro USB, Lightning)","Phone adapters and fast chargers","Extension cables and extension sockets","Electrical sockets and wall switches","LED bulbs and LED tubes","Plugs and adaptors","Electrical tape","AA and AAA batteries","TV remote controls","HDMI cables","Earphones and headphones","Electrical wires","Phone charging ports","Test pens"]);
+const SEED=Object.entries(CAT).flatMap(([c,L],i)=>L.map((name,j)=>({sku:["PA","EI","TV","RS","BP","ET"][i]+"-"+String(j+1).padStart(3,"0"),name,cat:c,price:0,cost:0,qty:0,min:5,pri:PRI.has(name)})));
+let SF={q:"",cat:"",pri:false,s:false};
+const PEN='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>',SRCH='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>';
+let S={inv:[],sales:[]},tab="home",msg=null,searchOpen=false;
+for(const k of["jimmytech1","jimmytech1_prev"]){try{const x=JSON.parse(localStorage.getItem(k)||"null");if(x&&x.inv){S=x;break}}catch(e){}}
+S.inv=S.inv||[];S.sales=S.sales||[];S.rep=S.rep||[];
+let SAVED=S.saved||0;const stamp=()=>{const e=document.getElementById("sv");if(e)e.textContent=SAVED?"Saved "+new Date(SAVED).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):"Not saved yet"};
+const save=m=>{try{const o=localStorage.getItem("jimmytech1");if(o)localStorage.setItem("jimmytech1_prev",o);SAVED=S.saved=Date.now();localStorage.setItem("jimmytech1",JSON.stringify(S));stamp();if(m===true)toast("✔ All saved")}catch(e){toast("⚠ Could not save. Download a backup now.")}};
+const E=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const M=n=>"KES "+(+n).toLocaleString(undefined,{maximumFractionDigits:0});
+const day=()=>{const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0")};
+const st=p=>p.qty<=0?["Out of stock","out"]:p.qty<=p.min?["Low","low"]:["In stock","ok"];
+IC.shield='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>';
+IC.plus='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+const CATS=()=>[...new Set([...Object.keys(CAT),...S.inv.map(p=>p.cat)])].sort((a,b)=>a.localeCompare(b,undefined,{sensitivity:"base",numeric:true}));
+let PRE="",LC="";
+const CC=c=>`var(--c${CATS().indexOf(c)%6+1})`;
+const isWire=p=>/\bwire(s)?\b/i.test((p.name||"")+" "+(p.type||"")),unit=p=>isWire(p)?"m":"units",qtyText=p=>`${p.qty} ${unit(p)}`,tn=p=>(p.name||"").toUpperCase()+(p.type?" – "+p.type.toUpperCase():""),dn=p=>E((p.name||"").toUpperCase())+(p.type?` <span class="tag">${E(p.type.toUpperCase())}</span>`:"");
+function itemPic(p){const t=((p.name||"")+" "+(p.type||"")+" "+(p.cat||"")).toLowerCase();let e="📦",tags="electronics,product";if(/bulb|lamp|lighting/.test(t)){e="💡";tags="led-bulb,light-bulb"}else if(/wire|cable|conduit/.test(t)){e="🔌";tags="electrical-wire,cable"}else if(/socket|extension|power strip/.test(t)){e="🔌";tags="electrical-socket,extension-cord"}else if(/switch|fuse|breaker/.test(t)){e="🔌";tags="electrical-switch,circuit-breaker"}else if(/phone|smartphone|screen|display/.test(t)){e="📱";tags="smartphone,mobile-phone"}else if(/charger|adapter/.test(t)){e="🔌";tags="phone-charger,usb-charger"}else if(/usb|flash drive|memory card/.test(t)){e="💾";tags="usb-flash-drive,usb-cable"}else if(/headphone|earphone|earbud/.test(t)){e="🎧";tags="headphones,earbuds"}else if(/power bank/.test(t)){e="🔋";tags="power-bank,portable-charger"}else if(/tv|television|monitor/.test(t)){e="📺";tags="flat-screen-television,computer-monitor"}else if(/radio|speaker|microphone|audio/.test(t)){e="🔊";tags="bluetooth-speaker,audio-radio"}else if(/remote/.test(t)){e="📺";tags="tv-remote-control"}else if(/hdmi/.test(t)){e="🔌";tags="hdmi-cable"}else if(/battery|solar|inverter|voltage|surge/.test(t)){e="🔋";tags=/solar/.test(t)?"solar-panel":/inverter/.test(t)?"power-inverter":"rechargeable-battery"}else if(/fan/.test(t)){e="🌀";tags="electric-fan"}else if(/laptop|computer|keyboard|mouse/.test(t)){e="💻";tags=/keyboard/.test(t)?"computer-keyboard":/mouse/.test(t)?"computer-mouse":"laptop-computer"}else if(/tool|pliers|screwdriver|multimeter|solder|test pen|glove|stripper/.test(t)){e="🛠️";tags="electrician-tools,multimeter"}else if(/capacitor|resistor|diode|transistor|board|connector/.test(t)){e="🧰";tags="electronic-components,circuit-board"}const key=String(p.sku||p.name||"item").split("").reduce((a,c)=>((a*31+c.charCodeAt(0))>>>0),7);const src=`https://loremflickr.com/120/120/${tags}?lock=${key}`;return `<span class="item-pic" title="${E(tn(p))}"><img src="${src}" alt="${E(tn(p))}" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${e}'"></span>`}
+function weekChart(){const D=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);const k=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());return{l:d.toLocaleDateString(undefined,{weekday:"short"}),v:S.sales.filter(s=>s.date==k).reduce((a,s)=>a+s.total,0)}}),mx=Math.max(...D.map(d=>d.v),1);
+ return`<div class="wk">${D.map((d,i)=>`<div class="col"><span class="mu">${d.v?Math.round(d.v).toLocaleString():""}</span><div class="bw"><i class="${i==6?"t":""}" style="height:${d.v/mx*100}%"></i></div><span>${d.l}</span></div>`).join("")}</div><p class="mu" style="margin:8px 0 0;font-size:12px">Sales in KES. Brass bar is today.</p>`}
+function catChart(){const T=CATS().map(c=>({c,v:S.inv.filter(p=>p.cat==c).reduce((a,p)=>a+p.qty,0),n:S.inv.filter(p=>p.cat==c).length})).filter(x=>x.n),mx=Math.max(...T.map(x=>x.v),1);
+ return T.length?T.map(x=>`<div class="hb"><span>${E(x.c)}</span><div class="tr"><i style="width:${x.v/mx*100}%;background:${CC(x.c)}"></i></div><b>${x.v}</b></div>`).join(""):'<p class="mu">Add items and their stock will show here.</p>'}
+function stockGraph(){if(!S.inv.length)return '<p class="mu">No stock products yet. Add stock to see it here.</p>';const max=Math.max(...S.inv.map(p=>+p.qty||0),1);return `<div class="stock-scroll">${S.inv.slice().sort((a,b)=>a.qty-b.qty||tn(a).localeCompare(tn(b))).map(p=>{const out=p.qty<=0,low=p.qty<=p.min;return `<div class="stock-graph-row ${out?'is-out':''}"><div style="display:flex;align-items:center;gap:8px">${itemPic(p)}<div><b>${E(tn(p))}</b><div class="mu" style="font-size:11px">${E(p.cat)}</div></div></div><div class="sgbar"><i style="width:${Math.max(p.qty>0?2:0,p.qty/max*100)}%"></i></div><div style="text-align:right"><b>${p.qty}</b><div class="${out?'out':low?'low':'ok'}" style="font-size:11px">${out?'OUT OF STOCK':low?'LOW':'IN STOCK'}</div></div></div>`}).join('')}</div>`}
+function restockRows(){return S.inv.filter(p=>p.qty<=p.min).sort((a,b)=>a.cat.localeCompare(b.cat)||tn(a).localeCompare(tn(b))).map(p=>{const tgt=Math.max(p.min*3,1),need=Math.max(tgt-p.qty,1);return{p,need,cost:need*(p.cost||0)}})}
+function downloadRestock(){const R=restockRows(),box=G("rmsg");if(!R.length){if(box)box.innerHTML='<div class="msg s">Nothing to restock right now.</div>';return}
+ const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"',H=["SKU","Item","Category","Status","In stock","Minimum","Suggested order qty","Buying price","Estimated cost (KES)"],
+ L=[H.map(q).join(",")].concat(R.map(({p,need,cost})=>[p.sku,tn(p),p.cat,stl(p)[0],p.qty,p.min,need,p.cost||"",p.cost?cost:""].map(q).join(","))),
+ tot=R.reduce((a,r)=>a+r.cost,0);L.push(["","","","","","","","Total",tot].map(q).join(","));
+ const b=new Blob(["\ufeff"+L.join("\r\n")],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="restock-list-"+day()+".csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+ if(box)box.innerHTML=`<div class="msg s">Downloaded ${R.length} item${R.length==1?"":"s"} to restock. Suggested quantities top each item up to 3 times its minimum.</div>`}
+const DLB='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 20h16"/></svg>';
+
+IC.wrench='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 005.4 5.4l-9.6 9.6a2.1 2.1 0 01-3-3z"/><path d="M14.7 6.3a4 4 0 00-1-4l-2.6 2.6 1.4 1.4 1.4 1.4z"/></svg>';
+const BIN='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>';
+let RF={q:"",f:"active"};
+const RT=["Phone","Radio","TV","Laptop / computer","Other electronic"],
+RS={in:["In repair","low","var(--c3)"],ready:["Ready to collect","ok","var(--c2)"],done:["Collected","col","var(--c6)"]},
+ago=d=>{const n=Math.round((new Date(day()+"T00:00")-new Date(d+"T00:00"))/864e5);return n<=0?"today":n==1?"yesterday":n+" days ago"};
+function repCard(r){const[s,c,col]=RS[r.st];
+ return`<div class="rc" style="border-left:5px solid ${col}"><div class="rh"><div style="min-width:0"><b>${E(r.dev)}</b><span class="tag">${E(r.type)}</span><div class="mu" style="font-size:13px">${E(r.cust)}${r.phone?` · <a href="tel:${E(r.phone)}">${E(r.phone)}</a>`:""}</div></div><span class="pill ${c}">${s}</span></div>
+ <p class="ri"><b>Problem:</b> ${E(r.issue)}</p>
+ <div class="rf"><div><small>Amount charged</small><span class="rm">${r.amt?M(r.amt):"Not set"}</span></div><div class="mu" style="font-size:13px;text-align:right">Received ${ago(r.dt)}${r.st=="ready"&&r.rd?"<br>Finished "+ago(r.rd):""}${r.st=="done"&&r.cd?"<br>Collected "+ago(r.cd):""}</div></div>
+ <div class="ra">${r.st=="in"?`<button class="p" data-ra="ready" data-i="${r.id}">✔ Mark as done</button>`:""}${r.st=="ready"?`<button class="p" data-ra="collect" data-i="${r.id}">Customer collected</button>`:""}<span class="sp"></span><button class="ib" data-ra="edit" data-i="${r.id}" title="Edit">${PEN}</button><button class="ib dng" data-ra="del" data-i="${r.id}" title="Delete record">${BIN}</button></div></div>`}
+function repList(){const A=S.rep,q=RF.q.trim().toLowerCase();
+ if(!A.length)return`<div class="panel" style="text-align:center"><p style="margin:0 0 10px"><b>No repairs recorded yet.</b> <span class="mu">Add a phone, radio or TV when a customer brings it in.</span></p><button class="p" data-rn="1">➕ Receive a device</button></div>`;
+ const ord={ready:0,in:1,done:2},L=A.filter(r=>RF.f=="all"||(RF.f=="active"?r.st!="done":r.st==RF.f)).filter(r=>!q||[r.cust,r.phone,r.dev,r.type,r.issue].join(" ").toLowerCase().includes(q)).sort((a,b)=>ord[a.st]-ord[b.st]||b.t-a.t);
+ return L.length?L.map(repCard).join(""):'<p class="mu">No repairs match. Try another filter above.</p>'}
+function repPanel(){const A=S.rep,n=s=>A.filter(r=>r.st==s).length,owed=A.filter(r=>r.st=="ready").reduce((a,r)=>a+(+r.amt||0),0);
+ return`<div class="kpis"><div class="k" style="--kc:var(--c3)" data-rf="in"><span>Being repaired</span><b>${n("in")}</b></div><div class="k" style="--kc:var(--c2)" data-rf="ready"><span>Ready to collect</span><b>${n("ready")}</b></div><div class="k" style="--kc:var(--c4)" data-rf="ready"><span>Money to receive on collection</span><b>${M(owed)}</b></div></div>
+ <div class="panel"><div class="export-head"><h2 class="report-title">REPAIR REGISTER & COLLECTION STATUS</h2><button class="chip" onclick="exportReport('repairs')">⬇ Download repair register</button></div><div class="tb"><span class="mu">${SRCH}</span><input id="rq2" class="big" placeholder="Search by customer, phone or device" value="${E(RF.q)}"><button class="p" data-rn="1">+ New repair</button></div><div class="chips">${[["active","Still in the shop","--c3"],["in","In repair","--c1"],["ready","Ready to collect","--c2"],["done","Collected","--c6"],["all","All","--c5"]].map(([k,t,c])=>`<button class="chip ${RF.f==k?"on":""}" style="--cc:var(${c})" data-rf2="${k}">${t}</button>`).join("")}</div></div><div id="rl">${repList()}</div>`}
+function bindRepBtns(){document.querySelectorAll("[data-rn]").forEach(b=>b.onclick=()=>repDlg());
+ document.querySelectorAll("[data-ra]").forEach(b=>b.onclick=()=>{const r=S.rep.find(x=>x.id==b.dataset.i),a=b.dataset.ra;if(!r)return;if(a=="ready")doneDlg(r);else if(a=="collect")collectDlg(r);else if(a=="edit")repDlg(r);else delRep(r)})}
+function bindRep(){const i=G("rq2");i.oninput=()=>{RF.q=i.value;G("rl").innerHTML=repList();bindRepBtns()};
+ document.querySelectorAll("[data-rf2]").forEach(b=>b.onclick=()=>{RF.f=b.dataset.rf2;draw()});document.querySelectorAll("[data-rf]").forEach(b=>b.onclick=()=>{RF.f=b.dataset.rf;draw()});bindRepBtns()}
+function repDlg(r){const d=G("dg"),ed=!!r;r=r||{type:"Phone"};
+ d.innerHTML=`<h2 style="margin:0 0 4px">${ed?"Edit repair":"Receive a device"}</h2><div class="mu">${ed?E(r.dev):"Write down what the customer brought in."}</div>
+ <label>Customer name<input id="f1" value="${E(r.cust||"")}" autocomplete="off"></label><label>Phone number<input id="f2" type="tel" value="${E(r.phone||"")}" autocomplete="off"></label>
+ <div class="two"><label>Type of device<select id="f3">${RT.map(t=>`<option ${t==r.type?"selected":""}>${t}</option>`).join("")}</select></label><label>Brand / model<input id="f4" value="${E(r.dev||"")}" placeholder="e.g. Tecno Spark 8" autocomplete="off"></label></div>
+ <label>What is wrong with it?<textarea id="f5" placeholder="e.g. Screen cracked, does not charge">${E(r.issue||"")}</textarea></label>
+ <div class="two"><label>Amount charged (KES)<input id="f6" type="number" min="0" step="any" value="${r.amt||""}"></label><label>Amount paid now (KES)<input id="f8" type="number" min="0" step="any" value="${r.paid??r.amt??""}" placeholder="Blank = paid in full"></label><label><input id="f9" type="checkbox" style="width:auto" ${r.st==="done"?"checked":""}> Repair completed and returned immediately</label>${ed?`<label>Status<select id="f7">${Object.entries(RS).map(([k,v])=>`<option value="${k}" ${k==r.st?"selected":""}>${v[0]}</option>`).join("")}</select></label>`:""}</div>
+ <div id="fm" class="msg e" style="display:none"></div><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="ib" style="padding:8px 14px" onclick="dg.close()">Cancel</button><button class="p" id="fs">${ed?"Save changes":"Save repair"}</button></div>`;
+ G("fs").onclick=()=>{const v=i=>G(i).value.trim(),cust=v("f1"),dev=v("f4"),issue=v("f5"),m=G("fm"),err=t=>{m.textContent=t;m.style.display=""};
+  if(!dev)return err("Enter the brand or model of the device.");if(!issue)return err("Describe what is wrong with it.");
+  const o=ed?r:{id:"R"+Date.now(),t:Date.now(),dt:day(),st:"in"};const amt=Math.max(0,+G("f6").value||0),rawPaid=v("f8"),paid=rawPaid===""?amt:Math.min(amt,Math.max(0,+G("f8").value||0)),instant=G("f9").checked;Object.assign(o,{cust:cust||"WALK-IN CUSTOMER",phone:v("f2"),type:G("f3").value,dev,issue,amt,paid,st:instant?"done":(ed?o.st:"in")});if(instant){o.rd=o.rd||day();o.cd=day()}if(amt>paid&&cust){const key=cust.toLowerCase(),now=Date.now();S.cust[key]=S.cust[key]||{name:cust};if(v("f2"))S.cust[key].phone=v("f2");S.debt.push({id:"D"+now,t:now,date:day(),key,cust,total:amt,items:"REPAIR: "+dev+" — "+issue,pays:paid>0?[{d:now,a:paid,m:"Cash"}]:[]})}
+  if(ed){const ns=G("f7").value;if(ns!=o.st){o.st=ns;if(ns=="in"){delete o.rd;delete o.cd}if(ns=="ready"){o.rd=o.rd||day();delete o.cd}if(ns=="done"){o.rd=o.rd||day();o.cd=day()}}}else S.rep.push(o);
+  save();d.close();draw()};d.showModal();G("f1").focus()}
+function doneDlg(r){const d=G("dg");d.innerHTML=`<h2 style="margin:0 0 4px">Repair finished</h2><div class="mu">${E(r.dev)} · ${E(r.cust)}</div><label>Final amount to charge (KES)<input id="g1" class="big" type="number" min="0" step="any" value="${r.amt||""}"></label><p class="mu pf">The device will move to "Ready to collect".</p><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="ib" style="padding:8px 14px" onclick="dg.close()">Cancel</button><button class="p" id="gs">Mark as done</button></div>`;
+ G("gs").onclick=()=>{r.amt=Math.max(0,+G("g1").value||0);r.st="ready";r.rd=day();save();d.close();draw()};d.showModal();G("g1").select()}
+function collectDlg(r){const d=G("dg");d.innerHTML=`<h2 style="margin:0 0 4px">Customer collected</h2><div class="mu">${E(r.dev)} · ${E(r.cust)}${r.amt?" · "+M(r.amt):""}</div><p style="margin:12px 0 0">What should happen to this record?</p><div class="stk"><button class="p" id="k1">Keep it in the list<small>It moves to "Collected" so you can look it up later.</small></button><button class="dngb" id="k2">Delete the record<small>Remove it completely. This cannot be undone.</small></button><button class="ib" style="padding:10px" onclick="dg.close()">Cancel</button></div>`;
+ G("k1").onclick=()=>{r.st="done";r.cd=day();r.rd=r.rd||day();save();d.close();draw()};G("k2").onclick=()=>{S.rep=S.rep.filter(x=>x!==r);save();d.close();draw()};d.showModal()}
+function delRep(r){const d=G("dg");d.innerHTML=`<h2 style="margin:0 0 4px">Delete this record?</h2><div class="mu">${E(r.dev)} · ${E(r.cust)}</div><p style="margin:12px 0 0">It will be removed completely and cannot be undone.</p><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="ib" style="padding:8px 14px" onclick="dg.close()">Cancel</button><button class="dngb" id="dy">Delete</button></div>`;
+ G("dy").onclick=()=>{S.rep=S.rep.filter(x=>x!==r);save();d.close();draw()};d.showModal()}
+function restock(sku){const p=S.inv.find(x=>x.sku==sku),d=G("dg");d.innerHTML=`<h2 style="margin:0 0 4px">Add stock</h2><div class="mu">${E(tn(p))} · now ${p.qty}</div><label>Quantity received (${unit(p)})<input id="rq" class="big" type="number" min="0.01" step="any" value="1"></label><div class="two"><label>Buying price (per unit or metre)<input id="rb" type="number" min="0" step="any" value="${p.cost||""}"></label><label>Selling price (per unit or metre)<input id="rs2" type="number" min="0" step="any" value="${p.price||""}"></label></div><p id="rpf" class="mu pf"></p><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="ib" onclick="dg.close()">Cancel</button><button class="p" id="rk">Add</button></div>`;
+ const pf=()=>{const b=+G("rb").value,s=+G("rs2").value;G("rpf").textContent=s>0&&G("rb").value!==""?`Profit per unit: ${M(s-b)} (${((s-b)/s*100).toFixed(1)}% margin)`:"Prices are saved with the new stock. Leave blank to keep the current ones."};G("rb").oninput=pf;G("rs2").oninput=pf;pf();
+ G("rk").onclick=()=>{const n=+G("rq").value;if(n>0){p.qty=+(p.qty+n).toFixed(3);const b=+G("rb").value,s=+G("rs2").value;if(b>0)p.cost=b;if(s>0)p.price=s;save();d.close();draw()}};d.showModal();G("rq").select()}const EMPTY='<div class="panel" style="text-align:center"><p style="margin:0 0 10px"><b>No items yet.</b> <span class="mu">Add your first item to start tracking stock.</span></p><button class="p" data-n="">➕ Add your first item</button></div>';
+const stl=p=>p.qty<=0?["Out of stock","out"]:p.qty<=p.min?["Low stock","low"]:["In stock","ok"];
+function cards(L){return L.map(p=>{const[s,c]=stl(p);return`<div class="sc"><div style="flex:1;min-width:0">${itemPic(p)}<b>${p.pri?"★ ":""}${dn(p)}</b><div class="mu" style="font-size:13px">${E(p.cat)}${p.clr?` · <span class="low">clearance -${p.clr}%</span>`:""}</div></div><div class="sell"><small>Sell at</small>${p.price?`<b>${M(eff(p))}</b>${p.clr?`<s>${M(p.price)}</s>`:""}`:`<b class="none">Price not set</b>`}</div><div class="sq"><b class="${c}">${qtyText(p)}</b><span class="pill ${c}">${s}</span></div><button class="ib" data-r="${E(p.sku)}">+ Stock</button><button class="ib" data-p="${E(p.sku)}" title="Buying and selling price">${TAG}</button><button class="ib" data-e="${E(p.sku)}" title="Edit stock">${PEN}</button></div>`}).join("")}
+function noMatch(q){return`<div class="panel"><p style="margin:0 0 10px"><b>No item found${q?` for “${E(q)}”`:""}.</b> <span class="mu">Check the spelling, or add it as a new item.</span></p><button class="p" data-n="${E(q)}">➕ Add ${q?"“"+E(q)+"”":"a new item"}</button></div>`}
+function nextSku(cat){const ex=S.inv.find(p=>p.cat==cat),pf=ex?ex.sku.split("-")[0]:(cat.replace(/[^A-Za-z]/g,"").slice(0,2).toUpperCase()||"XX");let n=S.inv.filter(p=>p.cat==cat).length+1,k;do{k=pf+"-"+String(n++).padStart(3,"0")}while(S.inv.some(x=>x.sku==k));return k}
+function nav(){const all={home:["Dashboard",IC.home],sell:["Record a Sale",IC.cart],stock:["Stock & Inventory",IC.box],add:["Receive Stock",IC.plus],restock:["Restock List",IC.low],rep:["Repair Desk",IC.wrench],debt:["Customer Debts",IC.card],set:["Shop Settings",IC.gear],admin:["Super Admin",IC.shield]},
+ groups=[["Sales",["home","sell"]],["Stock",["stock","add","restock"]],["Customers",["rep","debt"]],["Manage",ROLE=="admin"?["set","admin"]:["set"]]],
+ btn=k=>{const[t,i]=all[k];return`<button class="${tab==k?"on":""}" data-t="${k}">${i}${t}${k=="debt"&&debtors().length?`<b class="nb">${debtors().length}</b>`:""}</button>`};
+ document.getElementById("topnav").innerHTML=groups.map(([g,L],i)=>(i?'<span class="sep"></span>':"")+`<span class="grp-l">${g}</span>`+L.map(btn).join("")).join("");
+ const rt=document.getElementById("roleTag");if(rt)rt.hidden=ROLE!="admin";
+ document.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>go(b.dataset.t))}
+function go(t){tab=t;msg=null;draw()}
+function toggleStockSearch(){if(tab!=="home"){tab="home";searchOpen=true;draw()}else{searchOpen=!searchOpen;const p=document.querySelector(".compact-search");if(p)p.classList.toggle("search-collapsed",!searchOpen);if(searchOpen){const h=G("hq");if(h)h.focus()}}}
+function row(p){const[s,c]=st(p),pc=Math.min(100,p.qty/Math.max(p.min*3,1)*100);return`<tr><td>${E(p.sku)}</td><td><span style="display:inline-flex;align-items:center;gap:8px">${itemPic(p)}<span>${p.pri?"★ ":""}${dn(p)}${p.clr?` <span class="pill low">-${p.clr}%</span>`:""}</span></span></td><td>${p.price?(p.clr?`<s class="mu">${M(p.price)}</s> ${M(eff(p))}`:M(p.price)):"—"}<div class="mu" style="font-size:12px">bought ${p.cost?M(p.cost):"—"}</div></td><td><b>${qtyText(p)}</b></td><td><div class="bar"><i class="${c}" style="width:${pc}%;background:currentColor"></i></div></td><td><span class="pill ${c}">${s}</span></td><td><button class="ib" data-r="${E(p.sku)}" title="Add stock">+ Stock</button> <button class="ib" data-p="${E(p.sku)}" title="Buying and selling price">${TAG}</button> <button class="ib" data-e="${E(p.sku)}" title="Edit stock">${PEN}</button></td></tr>`}
+function stockTable(L){return`<div class="scroll"><table><tr><th>SKU</th><th>Product</th><th>Sell / Bought</th><th>Stock</th><th>Level</th><th>Status</th><th>Edit</th></tr>${L.map(row).join("")}</table></div>`}
+function stockList(){if(!S.inv.length)return EMPTY;const q=SF.q.trim().toLowerCase(),L=S.inv.filter(p=>(!SF.cat||p.cat==SF.cat)&&(!SF.pri||p.pri)&&(!q||matchQ(p,q)));if(!L.length)return q?noMatch(SF.q.trim()):'<p class="mu">No matching products.</p>';
+ if(q)return`<div class="panel"><p class="mu" style="margin:0 0 10px">${L.length} match${L.length==1?"":"es"}</p>${cards(L)}</div>`;
+ const open=SF.cat||SF.pri;
+ return CATS().filter(c=>L.some(p=>p.cat==c)).map(c=>{const g=L.filter(p=>p.cat==c).sort((a,b)=>(a.name+(a.type||"")).localeCompare(b.name+(b.type||""))),n=g.filter(p=>p.qty<=p.min).length;return`<details class="panel" style="border-left:6px solid ${CC(c)}" ${open?"open":""}><summary><b style="color:${CC(c)}">${E(c)}</b> <span class="mu">${g.length} items${n?` · <span class="low">${n} need restocking</span>`:""}</span></summary>${stockTable(g)}</details>`}).join("")}
+function stockPanel(){return`<div class="panel"><div class="tb"><span class="mu">${SRCH}</span><input id="sq2" class="big" placeholder="Search an item: is it in stock?" value="${E(SF.q)}"><button class="chip ${SF.pri?"on":""}" id="cp">★ Fast-moving</button><button class="chip" id="cs">Clear stock</button><button class="chip dl" id="dlr">${DLB} Restock list</button><button class="chip" onclick="exportReport('inventory')">⬇ Inventory report</button></div><div id="rmsg"></div><div class="category-chips">${["All",...CATS()].map(c=>{const n=c=="All"?S.inv.length:S.inv.filter(p=>p.cat==c).length;return`<button class="chip ${(SF.cat||"All")==c?"on":""}" ${c=="All"?"":`style="--cc:${CC(c)}"`} data-c="${E(c)}">${E(c)}<span class="cat-count">${n}</span></button>`}).join("")}</div></div><div id="sl">${stockList()}</div>`}
+function bindStock(){const i=document.getElementById("sq2");i.oninput=()=>{SF.q=i.value;document.getElementById("sl").innerHTML=stockList();bindEdit()};
+ document.getElementById("cp").onclick=()=>{SF.pri=!SF.pri;draw()};document.getElementById("cs").onclick=clearDlg;document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{SF.cat=b.dataset.c=="All"?"":b.dataset.c;draw()})}
+const G=id=>document.getElementById(id),pad=n=>String(n).padStart(2,"0"),eff=p=>p.clr?Math.round(p.price*(1-p.clr/100)):p.price;
+const TAG='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0L3 13V3h10l7.6 7.6a2 2 0 010 2.8z"/><circle cx="7.5" cy="7.5" r="1"/></svg>';
+const PFI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.7 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6v2m0 8v2"/></svg>';
+let HQ="",CD=null,CM=(()=>{const n=new Date();return{y:n.getFullYear(),m:n.getMonth()}})();
+function dayStats(d){const L=S.sales.filter(s=>s.date==d);return{sales:L.reduce((a,s)=>a+s.total,0),profit:L.reduce((a,s)=>a+s.total-(s.cost||0),0)}}
+function calHTML(){const f=new Date(CM.y,CM.m,1),dim=new Date(CM.y,CM.m+1,0).getDate(),t=day(),sel=CD||t;let c="";for(let i=0;i<f.getDay();i++)c+="<i></i>";
+ for(let d=1;d<=dim;d++){const k=CM.y+"-"+pad(CM.m+1)+"-"+pad(d);c+=`<button class="cd ${k==t?"today":""} ${k==sel?"sel":""}" data-d="${k}">${d}${S.sales.some(s=>s.date==k)?"<u></u>":""}</button>`}
+ const ds=dayStats(sel);return`<div class="row2"><button class="ib" id="cpv">‹</button><b>${f.toLocaleString(undefined,{month:"long",year:"numeric"})}</b><button class="ib" id="cnx">›</button></div><div class="cg">${["S","M","T","W","T","F","S"].map(x=>`<span>${x}</span>`).join("")}${c}</div><p class="mu" style="margin:10px 0 0">${sel==t?"Today":sel}: sales ${M(ds.sales)} · profit ${M(ds.profit)}</p>`}
+function bindCal(){const up=()=>{G("cal").innerHTML=calHTML();bindCal()};G("cpv").onclick=()=>{CM.m--;if(CM.m<0){CM.m=11;CM.y--}up()};G("cnx").onclick=()=>{CM.m++;if(CM.m>11){CM.m=0;CM.y++}up()};document.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{CD=b.dataset.d;up()})}
+function hres(){if(!S.inv.length)return EMPTY;const q=HQ.trim().toLowerCase();if(!q)return'<p class="mu">Type an item name to see if it is in stock and how many are left.</p>';const L=S.inv.filter(p=>matchQ(p,q)).slice(0,8);return L.length?cards(L):noMatch(HQ.trim())}
+function homeExtras(){return`<div class="cols"><div class="panel"><h2>🔍 Check an item</h2><div class="tb"><span class="mu">${SRCH}</span><input id="hq" class="big" placeholder="Search an item: in stock or not?" value="${E(HQ)}"></div><div id="hr" style="margin-top:10px">${hres()}</div></div></div>`}
+function bindHome(){G("dt").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric"});const h=G("hq");if(h)h.oninput=()=>{HQ=h.value;G("hr").innerHTML=hres();bindEdit()};const q=G("qsq");if(q){const render=()=>{const term=q.value.trim().toLowerCase(),box=G("qsr");if(!term){box.innerHTML='<p class="mu" style="margin:0">Search for a product to view its buying price and set the agreed selling price.</p>';return}const found=S.inv.filter(p=>matchQ(p,term)).slice(0,8);box.innerHTML=found.length?found.map(p=>`<div class="quick-result"><div class="qinfo">${itemPic(p)}<div class="qtext"><b>${E(tn(p))}</b><small>BUYING: ${M(p.cost||0)} · STOCK: ${qtyText(p)} · STANDARD SELL: ${M(eff(p)||0)}</small></div></div><button class="p sell-now" data-qsell="${E(p.sku)}" ${p.qty<=0?"disabled":""}>SELL</button></div>`).join(""):'<p class="mu" style="margin:0">No matching product found.</p>';box.querySelectorAll("[data-qsell]").forEach(b=>b.onclick=()=>quickRecordSale(b.dataset.qsell))};q.oninput=render;const btn=document.querySelector(".quick-sale .search-icon");if(btn)btn.onclick=render;render()}}
+function quickRecordSale(sku){const p=S.inv.find(x=>x.sku==sku);if(!p)return;if(p.qty<=0)return toast("This item is out of stock");const d=G("dg");d.innerHTML=`<h2 style="margin:0 0 4px">QUICK SALE</h2><div class="mu">${E(tn(p))} · ${qtyText(p)} available</div><div class="two"><label>Buying price<input id="qb" type="number" value="${p.cost||0}" readonly></label><label>Agreed selling price<input id="qsp" type="number" min="0" step="any" value="${eff(p)||''}" required></label></div><label>Quantity (${unit(p)})<input id="qqty" type="number" min="0.01" step="any" max="${p.qty}" value="1"></label><div class="two"><label>Customer name (required only if owing)<input id="qname" autocomplete="off"></label><label>Phone number (optional)<input id="qphone" type="tel"></label></div><div class="two"><label>Amount paid now<input id="qpaid" type="number" min="0" step="any" placeholder="Blank = paid in full"></label><label>Payment method<select id="qmethod"><option>Cash</option><option>M-Pesa</option><option>Bank</option></select></label></div><p id="qprofit" class="mu pf"></p><div id="qerr" class="msg e" style="display:none"></div><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="ib" onclick="dg.close()">Cancel</button><button class="p" id="qconfirm">Record sale</button></div>`;
+const calc=()=>{const pr=Math.max(0,+G("qsp").value||0),qty=Math.max(0,+G("qqty").value||0);G("qprofit").textContent=`TOTAL ${M(pr*qty)} · ESTIMATED PROFIT ${M((pr-(p.cost||0))*qty)}`};G("qsp").oninput=calc;G("qqty").oninput=calc;G("qconfirm").onclick=()=>{const price=+G("qsp").value,qty=+G("qqty").value,name=G("qname").value.trim(),phone=G("qphone").value.trim(),raw=G("qpaid").value,total=price*qty,paid=raw===""?total:Math.min(total,Math.max(0,+raw||0)),err=G("qerr");if(!(price>0)){err.textContent="Enter the agreed selling price.";err.style.display="";return}if(!(qty>0)||qty>p.qty){err.textContent="Enter a valid quantity within available stock.";err.style.display="";return}if(paid<total&&!name){err.textContent="Enter the customer's name because the unpaid balance will be recorded as debt.";err.style.display="";return}const now=Date.now(),key=name.toLowerCase();p.qty=+(p.qty-qty).toFixed(3);S.sales.push({date:day(),sku:p.sku,name:tn(p),qty,total,cost:(p.cost||0)*qty,cust:name,m:G("qmethod").value});if(name){const c=S.cust[key]=S.cust[key]||{name};c.name=name;if(phone)c.phone=phone}if(paid<total)S.debt.push({id:"D"+now,t:now,date:day(),key,cust:name,total,items:tn(p)+" ×"+qty,pays:paid>0?[{d:now,a:paid,m:G("qmethod").value}]:[]});save();d.close();msg=`<div class="msg s">Sale recorded: ${M(total)}. ${M(paid)} paid${paid<total?`; ${M(total-paid)} added to ${E(name)}'s debt`:""}.</div>`;toast("Sale recorded");draw()};d.showModal();calc();G("qsp").select()}
+
+let LD=day();setInterval(()=>{if(day()!=LD){LD=day();const n=new Date();CM={y:n.getFullYear(),m:n.getMonth()};CD=null;draw()}},30000);
+function priceDlg(sku){const p=S.inv.find(x=>x.sku==sku),d=G("dg");d.innerHTML=`<h2 style="margin:0 0 4px">Buying and selling price</h2><div class="mu">${E(tn(p))}</div><div class="two"><label>Bought at (per unit)<input id="r1" type="number" min="0" step="any" value="${p.cost||""}"></label><label>Selling at (per unit)<input id="r2" type="number" min="0" step="any" value="${p.price||""}"></label></div><p id="rp" class="mu" style="margin:10px 0 0"></p><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="ib" style="padding:8px 14px" onclick="dg.close()">Cancel</button><button class="p" id="rs">Save</button></div>`;
+ const pv=()=>{const b=+G("r1").value,s=+G("r2").value;G("rp").textContent=s>0&&G("r1").value!==""?`Profit per unit: ${M(s-b)} (${((s-b)/s*100).toFixed(1)}% margin). An estimate until sold.`:"Enter both prices to see the profit per unit."};G("r1").oninput=pv;G("r2").oninput=pv;pv();
+ G("rs").onclick=()=>{p.cost=Math.max(0,+G("r1").value||0);p.price=Math.max(0,+G("r2").value||0);save();d.close();draw()};d.showModal()}
+function clearDlg(){const d=G("dg");let sure=false;d.innerHTML=`<h2 style="margin:0 0 4px">Clear stock</h2><div class="mu">Move slow items off your shelves.</div><label>Category<select id="c1">${CATS().map(c=>`<option ${SF.cat==c?"selected":""}>${c}</option>`).join("")}</select></label><label>Action<select id="c2"><option value="clr">Clearance sale (discount price)</option><option value="end">End clearance (normal price)</option><option value="zero">Write off stock (set quantity to 0)</option></select></label><label id="c3l">Discount %<input id="c3" type="number" min="1" max="90" value="20"></label><div id="cm" class="msg e" style="display:none"></div><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="ib" style="padding:8px 14px" onclick="dg.close()">Cancel</button><button class="p" id="cg">Apply</button></div>`;
+ G("c2").onchange=()=>{sure=false;G("cg").textContent="Apply";G("cm").style.display="none";G("c3l").style.display=G("c2").value=="clr"?"":"none"};
+ G("cg").onclick=()=>{const cat=G("c1").value,a=G("c2").value,L=S.inv.filter(p=>p.cat==cat),m=G("cm");
+  if(a=="clr"){const x=+G("c3").value;if(!(x>0&&x<=90)){m.textContent="Enter a discount between 1 and 90.";m.style.display="";return}L.filter(p=>p.price&&p.qty>0).forEach(p=>p.clr=x)}
+  else if(a=="end")L.forEach(p=>{delete p.clr});
+  else{if(!sure){sure=true;G("cg").textContent="Confirm write-off";m.textContent="This sets every "+cat+" item to 0 stock. It cannot be undone.";m.style.display="";return}L.forEach(p=>{p.qty=0;delete p.clr})}
+  save();d.close();draw()};d.showModal()}
+function bindEdit(){document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>restock(b.dataset.r));document.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{PRE=b.dataset.n;go("add")});document.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>editP(b.dataset.e));document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>priceDlg(b.dataset.p))}
+
+/* ---- smart search: every word must match, from the first letter ---- */
+const hay=p=>(p.name+" "+(p.type||"")+" "+p.sku+" "+p.cat).toLowerCase();
+const matchQ=(p,q)=>{const t=String(q||"").toLowerCase().split(/\s+/).filter(Boolean);return t.every(w=>hay(p).includes(w))};
+const hl=(txt,q)=>{const t=String(q||"").toLowerCase().split(/\s+/).filter(Boolean);let o=E(txt);t.forEach(w=>{if(!w)return;const re=new RegExp("("+E(w).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig");o=o.replace(re,"<mark>$1</mark>")});return o};
+/* ---- live suggestion dropdown under a text box (works in WebView and desktop) ---- */
+function suggest(inp,getItems,onPick,minChars){
+ if(!inp)return;inp.removeAttribute("list");inp.setAttribute("autocomplete","off");
+ const host=inp.closest("label")||inp,box=document.createElement("div");box.className="sgbox";box.style.display="none";host.insertAdjacentElement("afterend",box);
+ let items=[],act=-1;
+ const close=()=>{box.style.display="none";box.innerHTML="";items=[];act=-1};
+ const pick=i=>{const it=items[i];if(!it)return;close();onPick(it)};
+ const render=()=>{const q=inp.value.trim();if(q.length<(minChars==null?1:minChars)){close();return}
+  items=getItems(q).slice(0,8);if(!items.length){close();return}
+  act=-1;box.innerHTML=items.map((it,i)=>`<button type="button" data-i="${i}"><span>${it.html||hl(it.label,q)}</span><small>${E(it.sub||"")}</small></button>`).join("");box.style.display="block";
+  box.querySelectorAll("button").forEach(b=>{b.onmousedown=e=>e.preventDefault();b.onclick=()=>pick(+b.dataset.i)})};
+ inp.addEventListener("input",render);inp.addEventListener("focus",render);
+ inp.addEventListener("blur",()=>setTimeout(close,180));
+ inp.addEventListener("keydown",e=>{if(box.style.display==="none")return;const bs=box.querySelectorAll("button");
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();act=(act+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length;bs.forEach((b,i)=>b.classList.toggle("act",i==act));bs[act].scrollIntoView({block:"nearest"})}
+  else if(e.key==="Enter"&&act>=0){e.preventDefault();pick(act)}
+  else if(e.key==="Escape")close()});
+ return{close,render};
+}
+const itemSuggest=q=>S.inv.filter(p=>matchQ(p,q)).sort((a,b)=>{const qq=String(q).toLowerCase(),sa=a.name.toLowerCase().startsWith(qq)?0:1,sb=b.name.toLowerCase().startsWith(qq)?0:1;return sa-sb||sOrd(a,b)}).map(p=>({p,html:hl(tn(p),q),sub:p.cat+" · "+qtyText(p)}));
+const catSuggest=q=>{const t=q.toLowerCase();return CATS().filter(c=>c.toLowerCase().includes(t)).map(c=>({c,label:c,sub:S.inv.filter(p=>p.cat==c).length+" items"}))};
+function editP(sku){const p=S.inv.find(x=>x.sku==sku),d=document.getElementById("dg");if(!p)return;
+ d.innerHTML=`<h2 style="margin:0 0 4px">Edit stock</h2><div class="mu">${E(tn(p))} · ${E(p.sku)}</div>
+ <label>Item name<input id="e7" value="${E(p.name||"")}" autocomplete="off"></label>
+ <label>Category<input id="e8" value="${E(p.cat||"")}" autocomplete="off"></label>
+ <label>Type (e.g. 12 inch)<input id="e6" value="${E(p.type||"")}" autocomplete="off"></label>
+ <div class="two"><label>Stock quantity (${unit(p)})<input id="e1" type="number" min="0" step="any" value="${p.qty}"></label><label>Minimum stock<input id="e2" type="number" min="0" value="${p.min}"></label><label>Selling price<input id="e3" type="number" min="0" step="any" value="${p.price||""}"></label><label>Buying cost<input id="e4" type="number" min="0" step="any" value="${p.cost||""}"></label></div>
+ <label><input type="checkbox" id="e5" style="width:auto" ${p.pri?"checked":""}> Fast-moving item ★</label><div id="em" style="margin-top:8px"></div>
+ <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end;flex-wrap:wrap"><button class="delbtn" id="edel">Delete item</button><button class="ib" style="padding:8px 14px" onclick="dg.close()">Cancel</button><button class="p" id="es">Save</button></div>`;
+ suggest(G("e8"),catSuggest,it=>{G("e8").value=it.c},0);
+ const err=t=>G("em").innerHTML=`<div class="msg e">${t}</div>`;
+ let sure=false;G("edel").onclick=function(){if(!sure){sure=true;this.classList.add("sure");this.textContent="Tap again to delete";setTimeout(()=>{sure=false;this.classList.remove("sure");this.textContent="Delete item"},4000);return}
+  S.inv=S.inv.filter(x=>x.sku!=p.sku);CT=CT.filter(l=>l.sku!=p.sku);save();d.close();draw();toast("Deleted "+tn(p))};
+ G("es").onclick=()=>{const n=id=>Math.max(0,+G(id).value||0),name=G("e7").value.trim(),type=G("e6").value.trim();let cat=G("e8").value.trim();
+  if(!name)return err("Item name cannot be empty.");if(!cat)return err("Category cannot be empty.");
+  cat=CATS().find(c=>c.toLowerCase()==cat.toLowerCase())||cat;
+  if(S.inv.some(x=>x.sku!=p.sku&&x.cat==cat&&x.name.toLowerCase()==name.toLowerCase()&&(x.type||"").toLowerCase()==type.toLowerCase()))return err("Another item with this name, type and category already exists.");
+  p.name=name;p.cat=cat;p.type=type;p.qty=+(n("e1").toFixed(3));p.min=+(n("e2").toFixed(3));p.price=n("e3");p.cost=n("e4");p.pri=G("e5").checked;save();d.close();draw();toast("Saved changes")};
+ d.showModal()}
+function stockTableOld(L){return`<div class="scroll"><table><tr><th>SKU</th><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Level</th><th>Status</th></tr>${L.map(p=>{const[s,c]=st(p),pc=Math.min(100,p.qty/Math.max(p.min*3,1)*100);return`<tr><td>${E(p.sku)}</td><td>${E(p.name)}</td><td>${E(p.cat)}</td><td>${M(p.price)}</td><td><b>${qtyText(p)}</b></td><td><div class="bar"><i class="${c}" style="width:${pc}%;background:currentColor"></i></div></td><td><span class="pill ${c}">${s}</span></td></tr>`}).join("")}</table></div>`}
+function draw(){nav();const v=document.getElementById("v"),total=S.sales.reduce((a,s)=>a+s.total,0),td=S.sales.filter(s=>s.date==day()).reduce((a,s)=>a+s.total,0),units=S.inv.reduce((a,p)=>a+p.qty,0),low=S.inv.filter(p=>p.qty<=p.min);
+ if(tab=="home"){const ds=dayStats(day());v.innerHTML=`<div class="dash-layout"><main class="dash-main"><div class="panel compact-search ${searchOpen?"":"search-collapsed"}"><div class="tb" style="gap:8px"><span class="search-icon" aria-hidden="true">${SRCH}</span><input id="hq" placeholder="Search stock…" value="${E(HQ)}" aria-label="Search stock"></div><div id="hr" style="margin-top:6px">${hres()}</div></div><div class="panel quick-sale"><div class="tb" style="justify-content:space-between"><h2 style="margin:0">Quick Sale</h2><button class="ib" type="button" onclick="go('sell')" title="Open full sale screen" aria-label="Open full sale screen">＋</button></div><div class="tb" style="margin-top:9px"><input id="qsq" placeholder="Find product to sell…" aria-label="Find product to sell" autocomplete="off"><button class="ib search-icon" type="button" aria-label="Search products to sell" title="Search products">${SRCH}</button></div><div id="qsr" style="margin-top:8px"><p class="mu" style="margin:0">Search for a product, then tap Sell to record a one-item cash sale.</p></div></div>
+ <div class="kpis"><div class="k sales-kpi" data-t="sell"><span>Today's sales</span><b>${M(ds.sales)}</b></div><div class="k profit-kpi" data-t="sell"><span>Today's profit</span><b>${M(ds.profit)}</b></div><div class="k" data-t="stock"><span>Units in stock</span><b>${units.toLocaleString()}</b></div><div class="k" data-t="stock"><span>Low or out of stock</span><b>${low.length}</b></div><div class="k" data-t="rep"><span>Repairs in the shop</span><b>${S.rep.filter(r=>r.st!="done").length}</b></div><div class="k" data-t="debt"><span>Owed by customers</span><b>${M(owedTotal())}</b></div></div>
+ 
+ <div class="cols"><div class="panel"><div class="tb" style="justify-content:space-between;margin-bottom:12px"><h2 style="margin:0">SHOP STOCK MONITOR</h2><button class="ib" onclick="go('stock')">Manage stock</button></div><p class="mu" style="margin-top:0">Scroll to view every product. Out-of-stock items pulse red.</p>${stockGraph()}</div><div class="panel"><h2>Recent sales <button class="ib" style="float:right" onclick="go('sell')">＋ New sale</button></h2>${S.sales.length?`<div class="scroll"><table><tr><th>Date</th><th>Product</th><th>Qty</th><th>Total</th></tr>${S.sales.slice(-6).reverse().map(s=>`<tr><td>${s.date}</td><td>${E(s.name)}</td><td>${s.qty}</td><td>${M(s.total)}</td></tr>`).join("")}</table></div>`:`<p class="mu">No sales yet.</p>`}</div></div></main></div>`}
+ else if(tab=="stock"){v.innerHTML=stockPanel();bindStock()}
+ else if(tab=="restock"){v.innerHTML=`<div class="panel"><div class="tb" style="justify-content:space-between"><h2>RESTOCK & REORDER REPORT</h2><button class="p" id="dlr">${DLB} Download formatted CSV</button></div><p class="mu">Products at or below their minimum stock level.</p><div id="rmsg"></div>${restockRows().length?stockTable(restockRows().map(x=>x.p)):`<p class="msg s">All products are above their minimum stock level.</p>`}</div>`}
+ else if(tab=="add"){const pre=PRE,cur=LC||SF.cat;PRE="";v.innerHTML=`<div class="panel" style="max-width:560px"><h2>Add stock</h2><input id="a3n" type="hidden" value=""><label>Item name <span class="mu" style="font-weight:400">(start typing, matches show up)</span><input id="a2" class="big" autocomplete="off" placeholder="e.g. Woofer, Charger" value="${E(pre)}"></label><label>Type (optional: 12 inch, Type-C 20W…)<input id="a8" class="big" autocomplete="off"></label><label>Category<input id="a3" class="big" autocomplete="off" value="${E(cur||"Other")}"></label><div id="ah" class="mu" style="min-height:22px;margin-top:6px"></div><label>Quantity (metres for wire; units for other items)<input id="a5" class="big" type="number" min="0" step="any" value="1"></label><div class="two"><label>Buying price (per unit or metre)<input id="a7" class="big" type="number" min="0" step="any" placeholder="What you paid"></label><label>Selling price (per unit or metre)<input id="a4" class="big" type="number" min="0" step="any" placeholder="What you charge"></label></div><p id="apf" class="mu pf"></p><details style="margin-top:12px"><summary class="mu">Low-stock alert</summary><label>Alert me when stock is at or below<input id="a6" type="number" min="0" value="5"></label></details><button class="p big" id="ad" style="margin-top:14px;width:100%">Save</button><div id="am">${msg||""}</div><datalist id="dn"></datalist><datalist id="dt2"></datalist></div>`;
+  let LX="";const opt=a=>[...new Set(a)].map(x=>`<option value="${E(x)}">`).join(""),fill=()=>{const c=G("a3").value,n=G("a2").value.trim().toLowerCase(),t=G("a8").value.trim().toLowerCase(),L=S.inv.filter(p=>p.cat.toLowerCase()==c.trim().toLowerCase());const ex=L.find(p=>p.name.toLowerCase()==n&&(p.type||"").toLowerCase()==t);G("ah").textContent=ex?"Already in stock: "+ex.qty+". The quantity below will be added to it."+(ex.price||ex.cost?" Current prices are filled in below; change them if they have moved.":""):"";if(ex&&ex.sku!=LX){LX=ex.sku;G("a7").value=ex.cost||"";G("a4").value=ex.price||""}if(!ex){if(LX){G("a7").value="";G("a4").value=""}LX=""}pf()},pf=()=>{const b=+G("a7").value,s=+G("a4").value;G("apf").textContent=s>0&&G("a7").value!==""?`Profit per unit: ${M(s-b)} (${((s-b)/s*100).toFixed(1)}% margin)`:"Enter both prices to see your profit per unit."};G("a7").oninput=pf;G("a4").oninput=pf;
+  G("a2").oninput=fill;G("a8").oninput=fill;G("a3").oninput=fill;
+  suggest(G("a2"),itemSuggest,it=>{G("a2").value=it.p.name;G("a8").value=it.p.type||"";G("a3").value=it.p.cat;LX="";fill();G("a5").focus();G("a5").select()});
+  suggest(G("a8"),q=>{const n=G("a2").value.trim().toLowerCase(),t=q.toLowerCase();return[...new Set(S.inv.filter(p=>p.type&&(!n||p.name.toLowerCase()==n)&&p.type.toLowerCase().includes(t)).map(p=>p.type))].map(x=>({label:x,v:x,sub:""}))},it=>{G("a8").value=it.v;fill();G("a5").focus();G("a5").select()},1);
+  suggest(G("a3"),catSuggest,it=>{G("a3").value=it.c;fill()},0);
+  fill();if(msg||pre)G(pre?"a8":"a2").focus();
+  G("ad").onclick=()=>{const g=i=>G(i).value.trim(),name=g("a2"),type=g("a8"),isn=false;let cat=g("a3")||"Other";const show=(t,k)=>G("am").innerHTML=`<div class="msg ${k}">${t}</div>`;
+   if(!name)return show("Enter the item name.","e");if(!cat)return show("Type the new category name.","e");
+   cat=CATS().find(c=>c.toLowerCase()==cat.toLowerCase())||cat;
+   const N=id=>Math.max(0,+G(id).value||0),q=+(N("a5").toFixed(3)),pr=N("a4"),co=N("a7"),ex=S.inv.find(p=>p.cat==cat&&p.name.toLowerCase()==name.toLowerCase()&&(p.type||"").toLowerCase()==type.toLowerCase());LC=cat;
+   if(ex){if(!q)return show("Enter how many to add.","e");ex.qty+=q;if(pr)ex.price=pr;if(co)ex.cost=co;save();msg=`<div class="msg s">Added ${q} to ${E(tn(ex))}. Now ${ex.qty} in stock.</div>`}
+   else{S.inv.push({sku:nextSku(cat),name,type,cat,price:pr,cost:co,qty:q,min:Math.floor(N("a6")),pri:false});save();msg=`<div class="msg s">Saved ${E(tn({name,type}))} under ${E(cat)} with ${q} in stock.</div>`}draw()}}
+ else if(tab=="rep"){v.innerHTML=repPanel();bindRep()}
+ else if(tab=="sell")sellView(v);
+ else if(tab=="debt")debtView(v);
+ else if(tab=="admin"&&ROLE=="admin")adminView(v);
+ else setView(v);
+ document.querySelectorAll(".k[data-t]").forEach(k=>k.onclick=()=>go(k.dataset.t));if(G("dlr"))G("dlr").onclick=downloadRestock;bindEdit();bindHome()}
+/* ===== v4: saving, selling, debts, settings ===== */
+function fixS(){S.inv=S.inv||[];S.sales=S.sales||[];S.rep=S.rep||[];S.debt=S.debt||[];S.cust=S.cust||{};S.set=Object.assign({phone:"",shop:"Jimmy Tech",loginPassword:"JIMMYTECH",tpl:"Hello {name}, a friendly reminder from {shop}: you have an unpaid balance of KES {bal}. Please pay when you can. Call me on {phone}. Thank you!"},S.set||{})}
+fixS();
+function toast(m){const t=G("toast");t.textContent=m;t.className="show";clearTimeout(toast.t);toast.t=setTimeout(()=>t.className="",2400)}
+function exportReport(kind){
+ const quote=v=>'"'+String(v??"").replace(/"/g,'""')+'"';let title="",rows=[],filename="";
+ if(kind==="inventory"){title="JIMMYTECH — INVENTORY & STOCK REPORT";filename="jimmytech-inventory-report-"+day()+".csv";rows=[[title],["Generated on",day()],["SKU","ITEM NAME","CATEGORY","BUYING PRICE (KES)","SELLING PRICE (KES)","QUANTITY","UNIT","MINIMUM STOCK","STOCK STATUS"],...S.inv.slice().sort((a,b)=>tn(a).localeCompare(tn(b))).map(p=>[p.sku,tn(p),p.cat,p.cost||0,eff(p)||0,p.qty,unit(p),p.min,st(p)[0]])];}
+ else if(kind==="sales"){title="JIMMYTECH — SALES REGISTER";filename="jimmytech-sales-register-"+day()+".csv";rows=[[title],["Generated on",day()],["DATE","ITEM","QUANTITY","TOTAL (KES)","COST (KES)","CUSTOMER","PAYMENT METHOD"],...S.sales.map(x=>[x.date,tn(x),x.qty,x.total,x.cost||0,x.cust||"WALK-IN",x.m||""] )];}
+ else if(kind==="repairs"){title="JIMMYTECH — REPAIR REGISTER & COLLECTION STATUS";filename="jimmytech-repair-register-"+day()+".csv";rows=[[title],["Generated on",day()],["DATE RECEIVED","CUSTOMER","PHONE","DEVICE TYPE","BRAND / MODEL","FAULT REPORTED","AMOUNT CHARGED (KES)","AMOUNT PAID (KES)","BALANCE (KES)","STATUS"],...S.rep.map(r=>[r.dt||day(),r.cust||"WALK-IN CUSTOMER",r.phone||"",r.type||"",r.dev||"",r.issue||"",r.amt||0,r.paid||0,Math.max(0,(+r.amt||0)-(+r.paid||0)),(RS[r.st]||[r.st||"Unknown"])[0]])];}
+ else {title="JIMMYTECH — CUSTOMER DEBT & PAYMENT REPORT";filename="jimmytech-customer-debts-"+day()+".csv";const D=debtors();rows=[[title],["Generated on",day()],["CUSTOMER","PHONE","ITEM / REASON","TOTAL (KES)","PAID (KES)","BALANCE OWING (KES)","LAST PAYMENT DATE"],...D.flatMap(d=>d.list.map(e=>[d.name,(S.cust[d.key]||{}).phone||"",e.items,e.total,dpaid(e),dbal(e),e.pays.length?sd2(e.pays[e.pays.length-1].d):""]))];}
+ const csv="\ufeff"+rows.map(r=>r.map(quote).join(",")).join("\r\n");const a=document.createElement("a"),url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast(title+" downloaded");
+}
+function backup(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:"application/json"}));a.download="jimmytech-backup-"+day()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast("Backup downloaded. Keep it safe.")}
+function restoreFile(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||!Array.isArray(d.inv))throw 0;if(!confirm("Replace everything in the app with this backup?"))return;S=d;fixS();save(true);msg=null;draw()}catch(e){toast("That is not a valid backup file")}};r.readAsText(f)}
+addEventListener("beforeunload",()=>save());try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+IC.card='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>';
+IC.gear='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>';
+/* debts */
+const dpaid=e=>e.pays.reduce((a,p)=>a+p.a,0),dbal=e=>Math.max(0,e.total-dpaid(e)),owedTotal=()=>S.debt.reduce((a,e)=>a+dbal(e),0);
+function debtors(){const m={};S.debt.forEach(e=>{if(dbal(e)<=0)return;const d=m[e.key]=m[e.key]||{key:e.key,name:(S.cust[e.key]||{}).name||e.cust,list:[],bal:0};d.list.push(e);d.bal+=dbal(e)});return Object.values(m).sort((a,b)=>b.bal-a.bal)}
+const intl=p=>{p=String(p).replace(/\D/g,"");return p.startsWith("0")?"254"+p.slice(1):p.length==9?"254"+p:p},sd2=t=>new Date(t).toLocaleDateString(undefined,{day:"numeric",month:"short"});
+/* selling */
+let CT=[],SQ2="",SC2="",CF={n:"",p:"",pd:"",m:"Cash"},DQ="";
+const sKey=p=>(p.name+" "+(p.type||"")+" "+p.sku+" "+p.cat).toLowerCase(),sOrd=(a,b)=>(a.name+" "+(a.type||"")).localeCompare(b.name+" "+(b.type||""),undefined,{numeric:true});
+function sellFound(){const q=SQ2.toLowerCase().split(/\s+/).filter(Boolean);return S.inv.filter(p=>(!SC2||p.cat==SC2)&&q.every(t=>sKey(p).includes(t))).sort(sOrd)}
+function sellRes(){const q=SQ2.trim(),box=G("sr");if(!S.inv.length){box.innerHTML=EMPTY;bindEdit();return}
+ let L=sellFound();if(!q&&!SC2)L=L.filter(p=>p.qty>0);
+ if(!L.length){box.innerHTML=q?noMatch(q):'<p class="mu">Nothing in stock yet. Search for an item or add stock.</p>';bindEdit();return}
+ const g={};L.slice(0,120).forEach(p=>(g[p.name]=g[p.name]||[]).push(p));
+ box.innerHTML=(q||SC2?"":'<p class="mu" style="margin:0 0 8px">Showing items in stock. Type to search everything.</p>')+Object.entries(g).map(([n,a])=>`<div class="grp"><h3>${E(n)} <span class="mu" style="font-weight:400;font-size:13px">${a.length>1?a.length+" types":""}</span></h3><div class="tiles">${a.map(p=>`<button class="tile" style="--cc:${CC(p.cat)}" data-ad="${E(p.sku)}" ${p.qty<=0?"disabled":""}><b>${E(p.type||"Standard")}</b><span>${p.price?M(eff(p)):"Set price"}</span><small>${p.qty<=0?"Out of stock":qtyText(p)+" left"}</small></button>`).join("")}</div></div>`).join("");
+ document.querySelectorAll("[data-ad]").forEach(b=>b.onclick=()=>cartAdd(b.dataset.ad));bindEdit()}
+function cartAdd(sku){const p=S.inv.find(x=>x.sku==sku);if(!p)return;if(!p.price)return priceDlg(sku);const l=CT.find(x=>x.sku==sku);if(l){if(l.q<p.qty)l.q++;else toast("Only "+p.qty+" in stock")}else CT.push({sku,q:1,pr:eff(p)});cartDraw()}
+const cartTot=()=>CT.reduce((a,l)=>a+l.q*l.pr,0);
+function cartDraw(){const T=cartTot();G("cl").innerHTML=CT.length?CT.map(l=>{const p=S.inv.find(x=>x.sku==l.sku);return`<div class="cl"><div><b>${dn(p)}</b><div class="qt"><button class="ib" data-cq="${E(l.sku)}" data-d="-1">−</button><b>${l.q} ${unit(p)}</b><button class="ib" data-cq="${E(l.sku)}" data-d="1">+</button></div>${isWire(p)?`<label style="margin-top:5px">Metres sold<input type="number" min="0.01" step="any" value="${l.q}" data-cqty="${E(l.sku)}"></label>`:""}</div><input type="number" min="0" step="any" value="${l.pr}" data-cp="${E(l.sku)}" title="Price per ${isWire(p)?"metre":"unit"}"><button class="ib dng" data-cx="${E(l.sku)}">✕</button></div>`}).join(""):'<p class="mu">Tap an item on the left to add it.</p>';
+ G("ct").textContent=M(T);const raw=G("sd").value,b=raw===""?0:Math.max(0,T-(+raw||0));G("cb").innerHTML=b>0?`<div class="msg e">⚠ <b>${M(b)}</b> will be recorded as a debt${G("sn2").value.trim()?" for "+E(G("sn2").value.trim()):". Enter the customer name."}</div>`:"";
+ document.querySelectorAll("[data-cq]").forEach(x=>x.onclick=()=>{const l=CT.find(y=>y.sku==x.dataset.cq),p=S.inv.find(y=>y.sku==l.sku);l.q+=+x.dataset.d*(isWire(p)?0.5:1);l.q=+l.q.toFixed(3);if(l.q<=0)CT=CT.filter(y=>y!==l);else if(l.q>p.qty){l.q=p.qty;toast("Only "+p.qty+" in stock")}cartDraw()});
+ document.querySelectorAll("[data-cp]").forEach(x=>x.onchange=()=>{CT.find(y=>y.sku==x.dataset.cp).pr=Math.max(0,+x.value||0);cartDraw()});
+ document.querySelectorAll("[data-cqty]").forEach(x=>x.onchange=()=>{const l=CT.find(y=>y.sku==x.dataset.cqty),p=S.inv.find(y=>y.sku==l.sku),n=+x.value;if(!(n>0)){toast("Enter metres greater than zero");return cartDraw()}if(n>p.qty){l.q=p.qty;toast("Only "+p.qty+" metres in stock")}else l.q=+n.toFixed(3);cartDraw()});
+ document.querySelectorAll("[data-cx]").forEach(x=>x.onclick=()=>{CT=CT.filter(y=>y.sku!=x.dataset.cx);cartDraw()})}
+function sellView(v){const cats=["All",...CATS()];
+ v.innerHTML=`<div class="sellgrid"><div><div class="panel"><div class="export-head"><h2 class="report-title">SALES REGISTER</h2><button class="chip" onclick="exportReport('sales')">⬇ Download sales report</button></div><div class="tb"><span class="mu">${SRCH}</span><input id="ssq" class="big" placeholder="Search: wire 2.5, socket, charger…" autocomplete="off" value="${E(SQ2)}"></div><div class="chips">${cats.map(c=>`<button class="chip ${(SC2||"All")==c?"on":""}" ${c=="All"?"":`style="--cc:${CC(c)}"`} data-sc="${E(c)}">${E(c)}</button>`).join("")}</div></div><div id="sr"></div></div>
+ <div class="panel cartp"><h2>Current sale</h2><div id="cl"></div><div class="ctot"><span>Total</span><b id="ct"></b></div>
+ <label>Customer name (needed if not paid in full)<input id="sn2" autocomplete="off" value="${E(CF.n)}"></label><datalist id="cdl">${Object.values(S.cust).map(c=>`<option value="${E(c.name)}">`).join("")}</datalist>
+ <label>Customer phone <span class="mu" style="font-weight:400">(optional — only needed for debt reminders)</span><input id="sph" type="tel" placeholder="Leave blank if not provided" value="${E(CF.p)}"></label>
+ <div class="two"><label>Paid with<select id="sm">${["Cash","M-Pesa","Bank"].map(x=>`<option ${x==CF.m?"selected":""}>${x}</option>`).join("")}</select></label><label>Amount paid now<input id="sd" type="number" min="0" step="any" placeholder="Empty = full" value="${E(CF.pd)}"></label></div>
+ <div class="chips"><button class="chip" data-qp="f">Full</button><button class="chip" data-qp="h">Half</button><button class="chip" data-qp="n">Nothing yet</button></div><div id="cb"></div>
+ <button class="p big" id="sdn" style="width:100%;margin-top:12px">✔ Complete sale</button><button class="ib" id="scl" style="margin-top:8px">Clear sale</button>${msg||""}</div></div>`;
+ const q=G("ssq");q.oninput=()=>{SQ2=q.value;sellRes()};q.onkeydown=e=>{if(e.key=="Enter"){const f=sellFound().find(p=>p.qty>0&&p.price);if(f){cartAdd(f.sku);q.select()}}};
+ document.querySelectorAll("[data-sc]").forEach(b=>b.onclick=()=>{SC2=b.dataset.sc=="All"?"":b.dataset.sc;draw()});
+ G("sn2").oninput=()=>{CF.n=G("sn2").value;cartDraw()};G("sn2").onchange=()=>{const c=S.cust[G("sn2").value.trim().toLowerCase()];if(c&&c.phone){G("sph").value=c.phone;CF.p=c.phone}};
+ suggest(G("sn2"),q=>{const t=q.toLowerCase();return Object.values(S.cust).filter(c=>c.name&&c.name.toLowerCase().includes(t)).map(c=>({c,label:c.name,sub:c.phone||""}))},it=>{G("sn2").value=it.c.name;CF.n=it.c.name;if(it.c.phone){G("sph").value=it.c.phone;CF.p=it.c.phone}cartDraw()},1);
+ G("sph").oninput=()=>CF.p=G("sph").value;G("sm").onchange=()=>CF.m=G("sm").value;G("sd").oninput=()=>{CF.pd=G("sd").value;cartDraw()};
+ document.querySelectorAll("[data-qp]").forEach(b=>b.onclick=()=>{const T=cartTot(),k=b.dataset.qp;G("sd").value=CF.pd=k=="f"?T:k=="h"?Math.round(T/2):0;cartDraw()});
+ G("sdn").onclick=checkout;G("scl").onclick=()=>{CT=[];CF={n:"",p:"",pd:"",m:"Cash"};msg=null;draw()};sellRes();cartDraw();if(!msg)q.focus()}
+function checkout(){if(!CT.length)return toast("Tap an item to add it first");
+ const T=cartTot(),raw=G("sd").value,paid=raw===""?T:Math.min(Math.max(+raw||0,0),T),name=G("sn2").value.trim(),ph=G("sph").value.trim(),m=G("sm").value;
+ for(const l of CT){const p=S.inv.find(x=>x.sku==l.sku);if(!p||l.q>p.qty)return toast("Not enough stock for "+(p?tn(p):l.sku))}
+ if(paid<T&&!name){G("sn2").focus();return toast("Enter the customer name. The unpaid balance becomes a debt.")}
+ const now=Date.now(),key=name.toLowerCase(),items=[];
+ CT.forEach(l=>{const p=S.inv.find(x=>x.sku==l.sku);p.qty-=l.q;S.sales.push({date:day(),sku:p.sku,name:tn(p),qty:l.q,total:l.pr*l.q,cost:(p.cost||0)*l.q,cust:name,m});items.push(tn(p)+" ×"+l.q)});
+ if(name){const c=S.cust[key]=S.cust[key]||{name};c.name=name;if(ph)c.phone=ph}
+ if(paid<T)S.debt.push({id:"D"+now,t:now,date:day(),key,cust:name,total:T,items:items.join(", "),pays:paid>0?[{d:now,a:paid,m}]:[]});
+ const b=T-paid;CT=[];CF={n:"",p:"",pd:"",m:"Cash"};save();
+ msg=`<div class="msg s">Sale recorded: ${M(T)}${b>0?`. ${M(paid)} paid, <b>${M(b)}</b> added to ${E(name)}'s debt.`:"."}</div>`;draw()}
+/* debts view */
+function debtList(){const q=DQ.trim().toLowerCase(),D=debtors().filter(d=>d.name.toLowerCase().includes(q));
+ if(!D.length)return`<div class="panel" style="text-align:center"><b>${DQ?"No customer found.":"Nobody owes you money 🎉"}</b></div>`;
+ return D.map(d=>{const c=S.cust[d.key]||{};return`<div class="dcard" data-k="${E(d.key)}"><div class="dh"><div><b class="dn2">${E(d.name)}</b><div class="mu" style="font-size:13px">${c.phone?"📞 "+E(c.phone):"No phone number yet"}${c.last?" · reminded "+sd2(c.last):""}</div></div><div class="owe"><small>Owes</small><b>${M(d.bal)}</b></div></div>
+ <div class="da"><input type="number" min="0" step="any" placeholder="Amount paid now"><button class="p" data-dp="1">Record payment</button><button class="ib" data-dp="all">Paid all</button></div>
+ <div class="da"><button class="ib" data-rm="sms">📩 SMS reminder</button><button class="ib" data-rm="wa">💬 WhatsApp</button><button class="ib" data-ph="1">📞 Phone</button></div>
+ <details style="margin-top:8px"><summary class="mu">Purchases and payments</summary>${d.list.slice().sort((a,b)=>b.t-a.t).map(e=>`<div class="dl2"><b>${e.date}</b> ${E(e.items)}<br>Total ${M(e.total)} · paid ${M(dpaid(e))} · <b class="out">owes ${M(dbal(e))}</b>${e.pays.length?`<div class="mu" style="font-size:12px">Payments: ${e.pays.map(p=>M(p.a)+" on "+sd2(p.d)).join(", ")}</div>`:""}</div>`).join("")}</details></div>`}).join("")}
+function bindDebt(){document.querySelectorAll(".dcard").forEach(c=>{const k=c.dataset.k;c.querySelectorAll("[data-dp]").forEach(b=>b.onclick=()=>debtPay(k,b.dataset.dp=="all"?null:+c.querySelector("input").value));c.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>remind(k,b.dataset.rm));c.querySelector("[data-ph]").onclick=()=>phoneDlg(k)})}
+function debtView(v){const D=debtors(),tot=D.reduce((a,d)=>a+d.bal,0);
+ v.innerHTML=`<div class="kpis"><div class="k" style="--kc:var(--c4)"><span>Total owed to you</span><b>${M(tot)}</b></div><div class="k" style="--kc:var(--c3)"><span>Customers owing</span><b>${D.length}</b></div></div>${S.set.phone?"":`<div class="msg e" style="margin:0 0 12px">Add your phone number in <button class="ib" onclick="go('set')">Settings</button> before sending reminders.</div>`}<div class="panel"><div class="export-head"><h2 class="report-title">CUSTOMER DEBT & PAYMENT REPORT</h2><button class="chip" onclick="exportReport('debts')">⬇ Download debt report</button></div><div class="tb"><span class="mu">${SRCH}</span><input id="dq" class="big" placeholder="Search customer" value="${E(DQ)}"></div></div><div id="dl3">${debtList()}</div>`;
+ G("dq").oninput=()=>{DQ=G("dq").value;G("dl3").innerHTML=debtList();bindDebt()};bindDebt()}
+function debtPay(k,a){const d=debtors().find(x=>x.key==k);if(!d)return;if(a===null)a=d.bal;if(!(a>0))return toast("Enter the amount paid");a=Math.min(a,d.bal);let left=a;
+ d.list.sort((x,y)=>x.t-y.t).forEach(e=>{const t=Math.min(left,dbal(e));if(t>0){e.pays.push({d:Date.now(),a:t,m:"Payment"});left-=t}});save();toast("Payment of "+M(a)+" recorded");draw()}
+function phoneDlg(k,cb){const d=G("dg"),c=S.cust[k]=S.cust[k]||{name:k};d.innerHTML=`<h2 style="margin:0 0 4px">Phone number</h2><div class="mu">${E(c.name)}</div><label>Customer phone<input id="ph1" class="big" type="tel" placeholder="0712 345 678" value="${E(c.phone||"")}"></label><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="ib" style="padding:8px 14px" onclick="dg.close()">Cancel</button><button class="p" id="ph2">Save</button></div>`;
+ G("ph2").onclick=()=>{const v=G("ph1").value.trim();if(v.replace(/\D/g,"").length<9)return G("ph1").focus();c.phone=v;save();d.close();draw();if(cb)cb()};d.showModal();G("ph1").focus()}
+function remind(k,via){if(!S.set.phone){toast("Add your phone number in Settings first");return go("set")}
+ const c=S.cust[k]=S.cust[k]||{name:k};if(!c.phone)return phoneDlg(k,()=>remind(k,via));const d=debtors().find(x=>x.key==k);if(!d)return;
+ const txt=S.set.tpl.replace(/\{name\}/g,d.name).replace(/\{(bal|balance)\}/g,Math.round(d.bal).toLocaleString()).replace(/\{shop\}/g,S.set.shop).replace(/\{phone\}/g,S.set.phone),n=intl(c.phone);
+ c.last=Date.now();save();if(via=="wa")window.open("https://wa.me/"+n+"?text="+encodeURIComponent(txt),"_blank");else location.href="sms:+"+n+"?body="+encodeURIComponent(txt);setTimeout(draw,400)}
+/* settings view */
+function setView(v){v.innerHTML=`<div class="panel" style="max-width:600px"><h2>Shop settings & access</h2><label>Shop name (used in reminders)<input id="s1" value="${E(S.set.shop)}"></label><label>Your phone number (customers see it in reminders)<input id="s2" type="tel" placeholder="0712 345 678" value="${E(S.set.phone)}"></label><label>Reminder message<textarea id="s3" rows="4">${E(S.set.tpl)}</textarea></label><p class="mu pf">Use {name}, {bal}, {shop} and {phone}. They are filled in for each customer.</p><button class="p" id="s4">Save settings</button>${msg||""}</div>
+ <div class="panel" style="max-width:600px"><h2>Protect your data</h2><p class="mu" style="margin-top:0">Everything saves automatically in this browser. Download a backup often, and always open the app from the same file so your stock stays put. If data is ever missing, restore your latest backup here.</p><div class="tb"><button class="p" onclick="backup()">⬇ Download backup</button><label class="ib" style="cursor:pointer">⬆ Restore backup<input type="file" accept=".json,application/json" hidden id="s5"></label></div></div>`;
+ G("s4").onclick=()=>{const ph=G("s2").value.trim();if(ph&&ph.replace(/\D/g,"").length<9)return toast("Enter a valid phone number");S.set.shop=G("s1").value.trim()||"Jimmy Tech";S.set.phone=ph;S.set.tpl=G("s3").value.trim()||S.set.tpl;save(true);msg='<div class="msg s">Settings saved.</div>';draw()};G("s5").onchange=e=>restoreFile(e.target.files[0])}
+/* ---------- Access control ---------- */
+function sha256(m){const r=(n,x)=>(x>>>n)|(x<<(32-n)),K=[],H=[];let p=0;const isP=n=>{for(let i=2;i*i<=n;i++)if(n%i==0)return 0;return 1},f=n=>((n-Math.floor(n))*4294967296)|0;
+ for(let c=2;p<64;c++)if(isP(c)){K[p]=f(Math.cbrt(c));if(p<8)H[p]=f(Math.sqrt(c));p++}
+ const b=unescape(encodeURIComponent(m)),l=b.length*8,w=new Array((((l+64)>>9)+1)*16).fill(0);
+ for(let i=0;i<b.length;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);
+ w[l>>5]|=0x80<<(24-l%32);w[w.length-1]=l;
+ for(let o=0;o<w.length;o+=16){const W=w.slice(o,o+16),h=H.slice();
+  for(let i=0;i<64;i++){if(i>=16){const x=W[i-15],y=W[i-2];W[i]=(W[i-16]+(r(7,x)^r(18,x)^(x>>>3))+W[i-7]+(r(17,y)^r(19,y)^(y>>>10)))|0}
+   const[a,b2,c,d,e,f2,g,hh]=h,t1=(hh+(r(6,e)^r(11,e)^r(25,e))+((e&f2)^(~e&g))+K[i]+W[i])|0,t2=((r(2,a)^r(13,a)^r(22,a))+((a&b2)^(a&c)^(b2&c)))|0;
+   h[7]=g;h[6]=f2;h[5]=e;h[4]=(d+t1)|0;h[3]=c;h[2]=b2;h[1]=a;h[0]=(t1+t2)|0}
+  for(let i=0;i<8;i++)H[i]=(H[i]+h[i])|0}
+ return H.map(x=>(x>>>0).toString(16).padStart(8,"0")).join("")}
+const ADMIN_HASH="941832fdea985d1d16c7b91a4f707ff20b43ba40f61abfd11a0589466264b655",ADMIN_SALT="jt|",ADMIN_PEPPER="|v1";
+const gateEl=document.getElementById("loginGate"),loginForm=document.getElementById("loginForm");
+let adminMode=false,taps=0,tapAt=0,fails=0;
+const $=id=>document.getElementById(id);
+function setMode(a){adminMode=a;loginForm.classList.toggle("admin",a);
+ $("loginTitle").textContent=a?"SUPER ADMIN ACCESS":"JIMMYTECH LOGIN";
+ $("loginHint").textContent=a?"Restricted area. Enter the super admin password.":"Enter the shop access password to continue.";
+ $("loginLabel").textContent=a?"Super admin password":"Password";
+ $("loginBtn").textContent=a?"Enter as Super Admin":"Unlock shop";
+ $("loginPass").value="";$("loginError").textContent="";$("loginPass").focus()}
+$("loginLogo").addEventListener("click",()=>{const n=Date.now();if(n-tapAt>3000)taps=0;tapAt=n;taps++;if(taps>=5){taps=0;setMode(!adminMode)}});
+function logAccess(role){try{S.set=S.set||{};S.set.log=(S.set.log||[]).concat([{t:Date.now(),r:role}]).slice(-30);save()}catch(e){}}
+function enter(role){ROLE=role;try{sessionStorage.setItem("jimmytech_unlocked",role=="admin"?"admin":"yes")}catch(e){}gateEl.style.display="none";$("loginError").textContent="";$("loginPass").value="";logAccess(role);tab="home";msg=null;draw()}
+loginForm.addEventListener("submit",function(ev){ev.preventDefault();const err=$("loginError"),pass=($("loginPass").value||"").trim();
+ let until=0;try{until=+localStorage.getItem("jt_lock")||0}catch(e){}
+ if(adminMode&&Date.now()<until){err.textContent="Too many wrong attempts. Wait "+Math.ceil((until-Date.now())/1000)+"s.";return}
+ if(adminMode){if(sha256(ADMIN_SALT+pass+ADMIN_PEPPER)===ADMIN_HASH){fails=0;return enter("admin")}
+  fails++;if(fails>=3){fails=0;try{localStorage.setItem("jt_lock",Date.now()+30000)}catch(e){}err.textContent="Access denied. Locked for 30 seconds."}else err.textContent="Access denied.";
+  $("loginPass").value="";return}
+ if(pass===((S.set&&S.set.loginPassword)||"JIMMYTECH"))enter("staff");
+ else{err.textContent="Incorrect password. Please try again.";$("loginPass").focus()}});
+function logout(){try{sessionStorage.removeItem("jimmytech_unlocked")}catch(e){}ROLE="staff";setMode(false);gateEl.style.display="";draw()}
+$("logoutBtn").addEventListener("click",logout);
+try{const u=sessionStorage.getItem("jimmytech_unlocked");if(u==="yes"||u==="admin"){ROLE=u=="admin"?"admin":"staff";gateEl.style.display="none"}}catch(e){}
+
+/* ---------- Super Admin view ---------- */
+function adminView(v){const L=(S.set&&S.set.log)||[];
+ v.innerHTML=`<div class="panel" style="max-width:640px"><h2>Super Admin</h2><p class="mu" style="margin-top:0">Only visible after the hidden super admin login. Shop staff cannot see or change this.</p><label for="apass">Shop login password (what staff use to unlock the shop)</label><div class="admin-box"><div class="row"><input id="apass" type="text" minlength="4" autocomplete="off" value="${E(S.set.loginPassword||"JIMMYTECH")}"><button class="p" id="apsave">Save password</button></div></div><div id="amsg2"></div></div>
+ <div class="panel" style="max-width:640px"><h2>Recent logins</h2>${L.length?L.slice().reverse().map(x=>`<div class="logrow"><span>${new Date(x.t).toLocaleString()}</span><b class="${x.r=="admin"?"low":"ok"}">${x.r=="admin"?"Super Admin":"Shop staff"}</b></div>`).join(""):'<p class="mu">No logins recorded yet.</p>'}</div>`;
+ $("apsave").onclick=()=>{const p=$("apass").value.trim();if(p.length<4){$("amsg2").innerHTML='<div class="msg e">Use at least 4 characters.</div>';return}S.set.loginPassword=p;save(true);$("amsg2").innerHTML='<div class="msg s">Shop password updated.</div>'}}
+
+/* ---------- Theme ---------- */
+function applyTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem("jimmytech_theme",t)}catch(e){}const b=$("themeToggle");if(b)b.textContent=t==="dark"?"☀ Light mode":"☾ Dark mode"}
+applyTheme(document.documentElement.dataset.theme||"light");
+$("themeToggle").addEventListener("click",()=>applyTheme(document.documentElement.dataset.theme==="dark"?"light":"dark"));
+stamp();
+draw();
+</script></body></html>

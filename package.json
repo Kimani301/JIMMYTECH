@@ -1,17 +1,36 @@
 {
   "name": "jimmytech-dashboard",
   "version": "1.0.0",
+  "description": "JIMMY TECH Dashboard - shop stock, sales and repairs",
+  "author": "Jimmy Tech",
+  "main": "electron/main.js",
   "private": true,
-  "description": "JIMMY TECH business dashboard (web + Android APK)",
   "scripts": {
-    "build": "node scripts/build-web.js",
-    "android:sync": "npm run build && npx cap sync android"
-  },
-  "dependencies": {
-    "@capacitor/android": "^6.2.0",
-    "@capacitor/core": "^6.2.0"
+    "start": "electron .",
+    "dist": "electron-builder --win --x64 --publish never"
   },
   "devDependencies": {
-    "@capacitor/cli": "^6.2.0"
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.jimmytech.dashboard",
+    "productName": "JIMMY TECH",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["electron/**/*", "www/**/*", "package.json"],
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "JIMMY TECH"
+    },
+    "artifactName": "JIMMYTECH-${version}-${target}.${ext}"
   }
 }
