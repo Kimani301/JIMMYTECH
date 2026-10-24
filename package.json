@@ -1,36 +1,34 @@
 {
   "name": "jimmytech-dashboard",
   "version": "1.0.0",
-  "description": "JIMMY TECH Dashboard - shop stock, sales and repairs",
+  "description": "Jimmy Tech Dashboard",
   "author": "Jimmy Tech",
   "main": "electron/main.js",
-  "private": true,
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win --x64 --publish never"
+    "dist:win": "electron-builder --win nsis portable --publish never"
   },
   "devDependencies": {
-    "electron": "^33.2.0",
-    "electron-builder": "^25.1.8"
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/cli": "^6.1.0",
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/filesystem": "^6.0.0",
+    "@capacitor/share": "^6.0.0",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
   },
   "build": {
     "appId": "com.jimmytech.dashboard",
-    "productName": "JIMMY TECH",
-    "directories": { "output": "dist", "buildResources": "build" },
-    "files": ["electron/**/*", "www/**/*", "package.json"],
-    "win": {
-      "icon": "build/icon.png",
-      "target": [
-        { "target": "nsis", "arch": ["x64"] },
-        { "target": "portable", "arch": ["x64"] }
-      ]
-    },
+    "productName": "Jimmy Tech Dashboard",
+    "files": ["electron/**", "www/**", "build/icon.png"],
+    "directories": { "output": "dist" },
+    "win": { "icon": "build/icon.png", "target": ["nsis", "portable"] },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "shortcutName": "JIMMY TECH"
+      "artifactName": "JimmyTech-Setup-${version}.exe"
     },
-    "artifactName": "JIMMYTECH-${version}-${target}.${ext}"
+    "portable": { "artifactName": "JimmyTech-Portable-${version}.exe" }
   }
 }

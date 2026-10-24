@@ -1,8 +1,5 @@
 {
   "appId": "com.jimmytech.dashboard",
-  "appName": "JIMMY TECH",
-  "webDir": "www",
-  "android": {
-    "allowMixedContent": false
-  }
+  "appName": "Jimmy Tech Dashboard",
+  "webDir": "www"
 }
